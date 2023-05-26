@@ -8,20 +8,20 @@ dotenv.config();
 const path = require('path');
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
-const route = require('./v1/routes');
-const { connectDB } = require('./configs/connect_database');
+const route = require('./routes/index');
+const { connectDB } = require('./config/connect_database');
 class Server {
-    constructor () {
+    constructor() {
         this.useMiddelwares();
         this.connectDatabase();
         this.listenServer();
         this.initRoute();
         this.setTemplate();
     }
-    initRoute () {
+    initRoute() {
         route(app);
     }
-    setTemplate (){
+    setTemplate() {
         app.use(express.static(path.join(__dirname, 'public')));
         app.engine(
             'hbs',
@@ -30,25 +30,25 @@ class Server {
             }),
         );
         app.set('view engine', 'hbs');
-        app.set('views', path.join(__dirname,'v1', 'resources', 'views'));
+        app.set('views', path.join(__dirname, 'resources', 'views'));
     }
     useMiddelwares() {
-       try {
-        app.use(
-            session({
-                secret: process.env.SECRET_SESSION,
-                cookie: { maxAge: 60000 },
-            }),
-        );
-        // override with POST having ?_method=DELETE
-        app.use(bodyParser.urlencoded({ extended: true }));
-        app.use(bodyParser.json());
-        app.use(cookieParser());
-        app.use(cors());
-        app.use(express.json());
-       } catch (error) {
-        console.log(error)
-       }
+        try {
+            app.use(
+                session({
+                    secret: process.env.SECRET_SESSION,
+                    cookie: { maxAge: 60000 },
+                }),
+            );
+            // override with POST having ?_method=DELETE
+            app.use(bodyParser.urlencoded({ extended: true }));
+            app.use(bodyParser.json());
+            app.use(cookieParser());
+            app.use(cors());
+            app.use(express.json());
+        } catch (error) {
+            console.log(error);
+        }
     }
     connectDatabase() {
         return connectDB();
@@ -60,4 +60,4 @@ class Server {
         });
     }
 }
-module.export = new Server;
+module.export = new Server();

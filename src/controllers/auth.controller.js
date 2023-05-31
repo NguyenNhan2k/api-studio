@@ -1,11 +1,9 @@
 class Auth {
-    async index (req,res) {
-        try{
-            res.render('auth/login', {
-                layout:'main'
-            })
-        }catch(error) {
-            console.log(error)
+    async index(req, res) {
+        try {
+            res.json('test');
+        } catch (error) {
+            console.log(error);
         }
     }
 }

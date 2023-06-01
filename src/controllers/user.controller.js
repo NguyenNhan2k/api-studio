@@ -13,6 +13,7 @@ class UserController {
         try {
             res.render('user/create', {
                 layout: 'main',
+                test: [1, 2, 3],
             });
         } catch (error) {
             console.log(error);
@@ -21,7 +22,7 @@ class UserController {
     async create(req, res) {
         try {
             const request = await req.body;
-            res.json(request);
+            const result = await UserService.create(request);
         } catch (error) {
             console.log(error);
         }

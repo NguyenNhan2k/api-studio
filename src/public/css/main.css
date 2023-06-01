@@ -1,0 +1,24 @@
+.anhCuoi{
+    max-width: 10%;
+    height: auto;
+}
+
+.bg-margin{
+    margin-left: 25%;
+    margin-bottom: 10px;
+    max-width: 72%;
+}
+
+.search{
+    width: 70%;
+    margin: 0px 10% 0px 25%;
+}
+
+.sp-text{
+    text-align: start;
+}
+
+.loc-margin{
+    margin-bottom: 10px;
+    max-width: 72%;
+}

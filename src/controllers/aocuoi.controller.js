@@ -10,7 +10,7 @@ class AocuoiController {
     }
     async detail(req, res) {
         try {
-            res.render('aocuoi/', {
+            res.render('aocuoi/chitietaocuoi', {
                 layout: 'main',
             });
         } catch (error) {

@@ -1,24 +1,29 @@
-.anhCuoi{
-    max-width: 10%;
-    height: auto;
-}
-
 .bg-margin{
-    margin-left: 25%;
-    margin-bottom: 10px;
-    max-width: 72%;
+    margin-left: 15%;
 }
 
 .search{
     width: 70%;
-    margin: 0px 10% 0px 25%;
-}
-
-.sp-text{
-    text-align: start;
+    margin-left: 15%;
 }
 
 .loc-margin{
     margin-bottom: 10px;
     max-width: 72%;
 }
+
+body{background:#eee}
+
+.ratings i{font-size: 16px;color: red}
+
+.strike-text{color: red;text-decoration: line-through}
+
+.product-image{width: 100%}
+
+.dot{height: 7px;width: 7px;margin-left: 6px;margin-right: 6px;margin-top: 3px;background-color: blue;border-radius: 50%;display: inline-block}
+
+.spec-1{color: #938787;font-size: 15px}
+
+h5{font-weight: 400}
+
+.para{font-size: 16px}

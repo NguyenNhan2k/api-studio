@@ -1,6 +1,3 @@
-.bg-margin{
-    margin-left: 15%;
-}
 
 .search{
     width: 70%;
@@ -27,3 +24,25 @@ body{background:#eee}
 h5{font-weight: 400}
 
 .para{font-size: 16px}
+
+.div_left{
+    margin-left: 13%;
+
+    width: 200px;
+        
+    float: left;
+        
+    text-align: center;
+        
+    }
+        
+.div_right{
+    margin-right: 15%;
+
+    width: 200px;
+        
+    float: right;
+        
+    text-align: center;
+        
+    }

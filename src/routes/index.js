@@ -6,6 +6,6 @@ function route(app) {
     app.use('/', main);
     app.use('/v1', authRoute);
     app.use('/aocuoi', aocuoiRoute);
-    app.use('/user', uesrRoute);
+    app.use('/users', uesrRoute);
 }
 module.exports = route;

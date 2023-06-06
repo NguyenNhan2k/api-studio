@@ -1,27 +1,70 @@
-<div class='create d-flex justify-content-center align-items-center'>
-    <form class='p-5 col-sm-8 border'>
-        <div class='mb-3'>
-            <label for='exampleInputEmail1' class='form-label'>Email address</label>
-            <input type='email' class='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' />
-            {{! <div id='emailHelp' class='form-text'>We'll never share your email with anyone else.</div> }}
+<main>
+    <div class='container my-5 pt-3'>
+        <div class='row mb-2'>
+            <div class='col-sm-12 col-md-3'>
+                <a href='/user' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
+            </div>
         </div>
-        <div class='mb-3'>
-            <label for='exampleInputPassword1' class='form-label'>Password</label>
-            <input type='password' class='form-control' id='exampleInputPassword1' />
+        <div class='row justify-content-around'>
+            <form class='p-5 col-sm-8 border' id="form-create">
+                 <div class='mb-3'>
+                    <h3 class="text-uppercase text-center">Tạo tài khoản</h3>
+                </div>
+                <div class="row mb-3 ">
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for='firstName' class='form-label'>First Name</label>
+                        <span>*</span>
+                        <input type='text' rules='require' name="fistName" class='form-control' id='firstName' aria-describedby='emailHelp' />
+                        <span class="form-text text-danger" ></span>
+                    </div>
+                      <div class="col-sm-12 col-md-6 form-group">
+                        <label for='lastName' class='form-label'>Last Name</label>
+                         <span>*</span>
+                        <input type='text' name="lastName" rules='require' class='form-control' id='lastName' aria-describedby='emailHelp' />
+                        <span class='form-text text-danger'></span>
+                    </div>
+                </div>
+                <div class='form-group mb-3'>
+                    <label for='email' class='form-label'>Email</label>
+                     <span>*</span>
+                    <input type='email' rules='require|isEmail' name="email" class='form-control' id='email' aria-describedby='emailHelp' />
+                    <span class='form-text text-danger'></span>
+                </div>
+                <div class='form-group mb-3'>
+                    <label for='password' class='form-label'>Password</label>
+                     <span>*</span>
+                    <input type='password' rules="require" name="password" class='form-control' id='password' />
+                     <span class='form-text text-danger'></span>
+                </div>
+                <div class='form-group mb-3 '>
+                    <label for='comfirmPwd' class='form-label '>Comfirm Password</label>
+                    <span>*</span>
+                    <input type='password' name="comfirmPwd"  rules="require|isConfirmed" class='form-control' id='comfirmPwd' />
+                     <span class='form-text text-danger'></span>
+                </div>
+                <div class='mb-3 col-sm-12 col-md-3'>
+                    <select class='form-select' aria-label='Default select example'>
+                        <option selected>Roles</option>
+                        {{#if roles}}
+                            {{#each roles}}
+                                <option value='{{this.id}}'>{{this.value}}</option>
+                            {{/each}}
+                        {{/if}}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Địa chỉ</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                    <button type='submit' class='btn btn-primary col-sm-12'>Submit</button>
+                </div>
+              
+            </form>
         </div>
-        {{#each test}}
-            {{this}}
-        {{/each}}
-        <div class='mb-3'>
-            <select class='form-select' aria-label='Default select example'>
-                <option selected>Open this select menu</option>
-                <option value='1'>One</option>
-                <option value='2'>Two</option>
-                <option value='3'>Three</option>
-            </select>
-            {{! <label class='form-check-label' for='exampleCheck1'>Check me out</label> }}
-        </div>
-
-        <button type='submit' class='btn btn-primary'>Submit</button>
-    </form>
-</div>
+    </div>
+</main>
+<script src="/js/validator.js"></script>
+<script >
+    validator('#form-create', '.form-group');
+</script>

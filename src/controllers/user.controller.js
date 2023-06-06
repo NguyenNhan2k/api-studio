@@ -1,4 +1,4 @@
-const UserService = require('../service');
+const { UserService, RoleService } = require('../service');
 class UserController {
     async render(req, res) {
         try {
@@ -11,9 +11,11 @@ class UserController {
     }
     async renderCreate(req, res) {
         try {
+            const respone = await RoleService.getAll();
+            console.log(respone);
             res.render('user/create', {
                 layout: 'main',
-                test: [1, 2, 3],
+                roles: respone.roles,
             });
         } catch (error) {
             console.log(error);

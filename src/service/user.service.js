@@ -1,35 +1,31 @@
-const { response } = require('express');
+const { ElertMessage, hashPassword } = require('../helpers');
 const db = require('../models');
 class UserService {
-    constructor() {
-        this.create = this.create.bind(this);
-    }
     async create(payload) {
-        let response = {
-            err: 1,
-            type: 'warning',
-            message: 'Hành động thất bại!',
-        };
+        let response = new ElertMessage('danger', 'Hàng động thất bại', 1);
         try {
-            const { email } = await payload;
+            const params = await {
+                lastName: payload.lastName,
+                firstName: payload.firstName,
+                email: payload.email,
+                phone: payload.phone,
+                address: payload.address,
+                password: hashPassword(payload.password),
+            };
             const [user, created] = await db.Users.findOrCreate({
-                where: { email: email },
-                defaults: {
-                    payload,
-                },
+                where: { email: params.email },
+                defaults: params,
             });
             if (!created) {
-                response.message = await `Tài khoản tồn tại!`;
+                response.setToastMsg('danger', 'Tài khoản đa tồn tại!', 1);
                 return response;
             }
-            return (response = {
-                err: 0,
-                type: 'success',
-                message: 'Thêm tài khoản thành công!',
-            });
+            await response.setToastMsg('success', 'Tạo tài khoản thành công!', 0);
+            return response;
         } catch (error) {
+            console.log(error);
             return response;
         }
     }
 }
-module.exports = UserService;
+module.exports = new UserService();

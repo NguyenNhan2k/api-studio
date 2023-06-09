@@ -1,0 +1,20 @@
+.message {
+    position: fixed;
+    right: 0;
+    top: 4rem;
+    animation: slideInLeft ease 1s, fadeOut linear 1s 3s forwards;
+}
+@keyframes slideInLeft {
+    from {
+        transform: translateX(calc(100% + 3rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}

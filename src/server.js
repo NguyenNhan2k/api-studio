@@ -12,6 +12,7 @@ const handlebars = require('express-handlebars');
 // const route = require('./routes/index');
 const Route = require('./routes/index');
 const { connectDB } = require('./config/connect_database');
+const { handlebar } = require('./helpers');
 class Server {
     constructor() {
         this.useMiddelwares();
@@ -29,6 +30,7 @@ class Server {
             'hbs',
             handlebars.engine({
                 extname: '.hbs',
+                helpers: { ...handlebar },
             }),
         );
         app.set('view engine', 'hbs');

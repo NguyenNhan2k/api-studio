@@ -18,111 +18,109 @@
                             Data Table
                         </div>
                         <div class='card-body'>
-
+                            <div class='md-4 d-flex align-items-center'>
+                                <div class='form-check me-2 p-0 ms-1'>
+                                    <input class='check-all' type='checkbox' value='' id='flexCheckDefault' />
+                                    <label class='form-check-label' for='flexCheckDefault'>
+                                        Check All
+                                    </label>
+                                </div>
+                                <select class='form-select w-25 me-2 text-center' aria-label='Default select example'>
+                                    <option selected>--- Hành động ---</option>
+                                    <option value='delete'>Xóa</option>
+                                </select>
+                                <button class='btn btn-primary submit' type='submit'>Thực hiện</button>
+                                <div class='d-flex ms-auto my-3 my-lg-0'>
+                                    <div class='input-group'>
+                                        <input
+                                            class='form-control'
+                                            type='search'
+                                            placeholder='Search'
+                                            aria-label='Search'
+                                        />
+                                        <button class='btn btn-primary' type='submit'>
+                                            <i class='bi bi-search'></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class='table-responsive'>
                                 <table id='example' class='table table-striped data-table' style='width: 100%'>
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Role</th>
+                                            <th>CreatedAt</th>
+                                            <th>Xem</th>
+                                            <th>Sửa</th>
+                                            <th>Xóa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td>$86,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td>$433,060</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td>$162,700</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2012/12/02</td>
-                                            <td>$372,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Herrod Chandler</td>
-                                            <td>Sales Assistant</td>
-                                            <td>San Francisco</td>
-                                            <td>59</td>
-                                            <td>2012/08/06</td>
-                                            <td>$137,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Rhona Davidson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>Tokyo</td>
-                                            <td>55</td>
-                                            <td>2010/10/14</td>
-                                            <td>$327,900</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Colleen Hurst</td>
-                                            <td>Javascript Developer</td>
-                                            <td>San Francisco</td>
-                                            <td>39</td>
-                                            <td>2009/09/15</td>
-                                            <td>$205,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Sonya Frost</td>
-                                            <td>Software Engineer</td>
-                                            <td>Edinburgh</td>
-                                            <td>23</td>
-                                            <td>2008/12/13</td>
-                                            <td>$103,600</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jena Gaines</td>
-                                            <td>Office Manager</td>
-                                            <td>London</td>
-                                            <td>30</td>
-                                            <td>2008/12/19</td>
-                                            <td>$90,560</td>
-                                        </tr>
+                                        {{#if users}}
+                                            {{#each users}}
+                                                <tr>
+                                                    <td>
+                                                        <div class='form-check'>
+                                                            <input
+                                                                class='form-check-input'
+                                                                type='checkbox'
+                                                                id='flexCheckDefault'
+                                                                name='users[]'
+                                                                value='{{this.id}}'
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td>{{this.firstName}} {{this.lastName}}</td>
+                                                    <td>{{this.email}}</td>
+                                                    <td>{{this.phone}}</td>
+                                                    <td>{{this.role.value}}</td>
+                                                    <td>{{convertToDate this.createdAt}}</td>
+                                                    <td>
+                                                        <a class='btn btn-primary px-1 py-1'>
+                                                            <i class='fa-solid fa-eye'></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class='btn btn-success px-1 py-1'>
+                                                            <i class='fa-solid fa-pen'></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class='btn btn-danger px-1 py-1'>
+                                                            <i class='fa-solid fa-trash'></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                        {{else}}
 
+                                        {{/if}}
                                     </tbody>
                                 </table>
+                                <nav aria-label='...' class=''>
+                                    <ul class='pagination float-end'>
+                                        <li class='page-item disabled'>
+                                            <a
+                                                class='page-link'
+                                                href='#'
+                                                tabindex='-1'
+                                                aria-disabled='true'
+                                            >Previous</a>
+                                        </li>
+                                        <li class='page-item'><a class='page-link' href='#'>1</a></li>
+                                        <li class='page-item active' aria-current='page'>
+                                            <a class='page-link' href='#'>2</a>
+                                        </li>
+                                        <li class='page-item'><a class='page-link' href='#'>3</a></li>
+                                        <li class='page-item'>
+                                            <a class='page-link' href='#'>Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -131,3 +129,7 @@
         </div>
     </div>
 </main>
+<script src='/js/main.js'></script>
+<script>
+    handelCheckedBox('input[name="users[]"]:checked');
+</script>

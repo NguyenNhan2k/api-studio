@@ -14,11 +14,17 @@ class ElertMessage {
     async active(req, res) {
         try {
             await req.flash('toastMsg', this.result);
-            res.redirect('back');
+            await res.redirect('back');
         } catch (error) {
             console.log(error);
-            return false;
         }
+    }
+    setMsg(msg) {
+        this.message = msg;
+        this.result[0].message = msg;
+    }
+    getMsg() {
+        return this.message;
     }
     setToastMsg(type, message, error) {
         this.type = type;

@@ -3,6 +3,11 @@ body,
 button {
     font-family: 'Inter', sans-serif;
 }
+button,
+select,
+input {
+    cursor: pointer;
+}
 :root {
     --offcanvas-width: 270px;
     --topNavbarHeight: 56px;

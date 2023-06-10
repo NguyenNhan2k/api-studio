@@ -13,7 +13,8 @@ const validation = async (req, res, next) => {
         const { error, value } = await shema.validate(params);
         if (error) {
             const message = await error.details[0].message;
-            await new ElertMessage('danger', message, true).active(req, res);
+            const respone = await new ElertMessage('danger', message, true);
+            return respone.active(req, res);
         }
         req.payload = await value;
         next();

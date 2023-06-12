@@ -1,13 +1,18 @@
 <main>
     <div class='container mt-5 pt-3'>
         <div class='row mb-2'>
-            <div class='col-sm-12 col-md-6'>
+            <div class='col-sm-12 col-md-8'>
                 <h4>Users</h4>
             </div>
-            <div class='col-sm-12 col-md-6'>
-                <a href='/users/create' class='btn btn-success float-end me-4'><i class='fa-solid fa-plus me-2'></i>Add
+            <div class='col-sm-12 col-md-4 pe-4'>
+                <a href='/users/trash' class='btn btn-primary ms-3 position-relative'>
+                    <i class='fa-solid fa-trash me-1'></i>
+                    Thùng rác(1)
+                </a>
+                <a href='/users/create' class='btn btn-success float-end me-3'><i class='fa-solid fa-plus me-2'></i>Add
                     new</a>
             </div>
+
         </div>
         <div class='row'>
             <div class='row'>
@@ -44,16 +49,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class='table-responsive'>
+                            <div class='table-responsive mt-2'>
                                 <table id='example' class='table table-striped data-table' style='width: 100%'>
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
+                                            <th>Name {{{sortable 'lastName' _sort _page}}}</th>
+                                            <th>Email {{{sortable 'email' _sort _page}}}</th>
+                                            <th>Phone {{{sortable 'phone' _sort _page}}}</th>
                                             <th>Role</th>
-                                            <th>CreatedAt</th>
+                                            <th>CreatedAt{{{sortable 'createdAt' _sort _page}}}</th>
                                             <th>Xem</th>
                                             <th>Sửa</th>
                                             <th>Xóa</th>
@@ -101,25 +106,9 @@
                                         {{/if}}
                                     </tbody>
                                 </table>
+
                                 <nav aria-label='...' class=''>
-                                    <ul class='pagination float-end'>
-                                        <li class='page-item disabled'>
-                                            <a
-                                                class='page-link'
-                                                href='#'
-                                                tabindex='-1'
-                                                aria-disabled='true'
-                                            >Previous</a>
-                                        </li>
-                                        <li class='page-item'><a class='page-link' href='#'>1</a></li>
-                                        <li class='page-item active' aria-current='page'>
-                                            <a class='page-link' href='#'>2</a>
-                                        </li>
-                                        <li class='page-item'><a class='page-link' href='#'>3</a></li>
-                                        <li class='page-item'>
-                                            <a class='page-link' href='#'>Next</a>
-                                        </li>
-                                    </ul>
+                                    {{{paging _page countPage}}}
                                 </nav>
                             </div>
                         </div>

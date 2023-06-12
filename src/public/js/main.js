@@ -29,3 +29,20 @@ const handelCheckedBox = (nameInput) => {
         }
     }
 };
+
+const hiddenPwd = () => {
+    const iconHiden = document.querySelector('#hidden-password');
+    const input = document.querySelector('#password');
+    iconHiden &&
+        iconHiden.addEventListener('click', () => {
+            if (iconHiden.classList.contains('hidden')) {
+                iconHiden.setAttribute('class', ' fa-solid fa-eye fs-4 fs-4');
+                input.type = 'text';
+            } else {
+                iconHiden.setAttribute('class', 'fa-solid fa-eye-slash fs-4 hidden');
+                input.type = 'password';
+            }
+        });
+};
+
+hiddenPwd();

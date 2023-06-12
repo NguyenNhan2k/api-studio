@@ -3,6 +3,7 @@
     right: 0;
     top: 4rem;
     animation: slideInLeft ease 1s, fadeOut linear 1s 3s forwards;
+    z-index: 100;
 }
 @keyframes slideInLeft {
     from {

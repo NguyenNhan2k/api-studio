@@ -8,9 +8,9 @@ const validation = async (req, res, next) => {
             .keys({
                 ...objShema,
             })
-            .unknown(true);
+            .unknown(false);
 
-        const { error, value } = await shema.validate(params);
+        const { error, value } = await shema.validate(params, { abortEarly: false });
         if (error) {
             const message = await error.details[0].message;
             const respone = await new ElertMessage('danger', message, true);

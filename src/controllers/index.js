@@ -1,10 +1,12 @@
 const homeController = require('./home.controller');
-const authController = require('./auth.controller');
+const AuthController = require('./auth.controller');
 const UserController = require('./user.controller');
 const AocuoiController = require('./aocuoi.controller');
+const CalendarController = require('./calendar.controller');
 module.exports = {
     homeController,
-    authController,
+    AuthController,
     UserController: UserController,
     AocuoiController: AocuoiController,
+    CalendarController,
 };

@@ -90,7 +90,7 @@ function validator(formSelector, formGround = '.form-group') {
             return !errMsg;
         }
         function handleClearErr(event) {
-            const formGroup = getParent(event.target, '.form-group');
+            const formGroup = getParent(event.target, formGround);
             if (formGroup && formGroup.classList.contains('text-danger')) {
                 formGroup.classList.remove('text-danger');
                 const spanMsg = formGroup.querySelector('.form-text');
@@ -101,6 +101,7 @@ function validator(formSelector, formGround = '.form-group') {
         }
     }
     if (formElement) {
+        console.log(formElement);
         formElement.onsubmit = (event) => {
             event.preventDefault();
             const inputs = formElement.querySelectorAll('[name][rules]');

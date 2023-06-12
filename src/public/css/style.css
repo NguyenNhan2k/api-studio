@@ -8,6 +8,7 @@ select,
 input {
     cursor: pointer;
 }
+
 :root {
     --offcanvas-width: 270px;
     --topNavbarHeight: 56px;
@@ -47,4 +48,21 @@ input {
 .valid,
 .valid > span {
     color: red;
+}
+.divider:after,
+.divider:before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+.password {
+    position: relative;
+}
+#hidden-password {
+    position: absolute;
+    right: 1rem;
+    top: 2.8rem;
+    color: #616060;
+    cursor: pointer;
 }

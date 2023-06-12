@@ -11,10 +11,10 @@ class ElertMessage {
             },
         ];
     }
-    async active(req, res) {
+    async active(req, res, urlRedirect = 'back') {
         try {
             await req.flash('toastMsg', this.result);
-            await res.redirect('back');
+            await res.redirect(urlRedirect);
         } catch (error) {
             console.log(error);
         }
@@ -37,6 +37,14 @@ class ElertMessage {
                 message,
             },
         ];
+    }
+    pushResult(option) {
+        return (this.result = [
+            {
+                ...this.result[0],
+                ...option,
+            },
+        ]);
     }
     getResult() {
         return this.result;

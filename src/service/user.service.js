@@ -1,5 +1,7 @@
 const { ElertMessage, hashPassword } = require('../helpers');
 const db = require('../models');
+const Sequelize = require('sequelize');
+const op = Sequelize.Op;
 class UserService {
     constructor() {
         this.response = new ElertMessage('danger', 'Hàng động thất bại', 1);
@@ -49,10 +51,68 @@ class UserService {
             return false;
         }
     }
-    async getAll() {
+    async findAndCountAll(deleted = true) {
+        const users = await db.Users.findAndCountAll({
+            where: {
+                destroyTime: {
+                    [op.not]: null,
+                },
+            },
+            attributes: {
+                exclude: ['password', 'refresh_token', 'createdAt'],
+            },
+            paranoid: false,
+            raw: true,
+        });
+        return users;
+    }
+    async getAll({ page, order, deleted = true }) {
         try {
-            const users = await this.findAll();
-            return users;
+            const offset = (await !page) || +page < 1 ? 0 : +page - 1;
+            const limit = await process.env.QUERY_LIMIT;
+            const queries = await {
+                attributes: {
+                    exclude: ['password', 'refresh_token', , 'updatedAt', 'id_role'],
+                },
+                include: {
+                    model: db.Roles,
+                    as: 'role',
+                    attributes: {
+                        exclude: [, 'updatedAt'],
+                    },
+                },
+                raw: true,
+                nest: true,
+            };
+            if (order.length > 0) {
+                queries.order = await [order];
+            }
+            if (!deleted) {
+                (queries.where = await {
+                    destroyTime: {
+                        [op.not]: null,
+                    },
+                }),
+                    (queries.paranoid = deleted);
+            }
+            queries.offset = (await offset) * limit;
+            queries.limit = await +limit;
+            const { count, rows } = await db.Users.findAndCountAll({
+                ...queries,
+            });
+            const countDeleted = await this.findAndCountAll(false);
+            const countPage = await Math.ceil(count / limit);
+            if (!rows) {
+                return this.response;
+            }
+            const output = await {
+                users: rows,
+                countPage,
+                countDeleted: countDeleted.count,
+            };
+            await this.response.setToastMsg('success', 'Lấy danh sách thành công!', 0);
+            await this.response.pushResult(output);
+            return this.response;
         } catch (error) {
             console.log(error);
             return this.response;

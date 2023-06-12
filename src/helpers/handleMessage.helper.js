@@ -17,6 +17,7 @@ class ElertMessage {
             await res.redirect(urlRedirect);
         } catch (error) {
             console.log(error);
+            await res.redirect(urlRedirect);
         }
     }
     setMsg(msg) {

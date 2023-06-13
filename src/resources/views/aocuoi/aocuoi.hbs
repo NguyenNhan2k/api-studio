@@ -1,1 +1,66 @@
-<h1>test 132</h1>
+<div>
+    <div class="container-fluid p-5 bg-primary text-white text-center">
+    <h1>Danh mục áo cưới</h1>
+    </div>
+
+    {{!-- search bar --}}
+    <div class="form-outline p-5">
+    <input type="search" id="form1" class="search" placeholder="Tìm kiếm" aria-label="Search" />
+    </div>
+
+    {{!-- button thêm + danh mục --}}
+    <div class="container-swap">
+    <div class="div_left"><button type="button" class="btn btn-primary bg-margin">Thêm</button></div>
+    <div class="dropdown div_right">
+     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    Danh Mục
+     </a> 
+     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="#">Váy cưới làm lễ</a></li>
+    <li><a class="dropdown-item" href="#">Váy cưới đi bàn</a></li>
+    <li><a class="dropdown-item" href="#">Luxury</a></li>
+    </ul>
+    </div>
+    </div>
+
+    {{!-- khung sản phẩm --}}
+    <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="row p-2 bg-white border rounded">
+                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/image/mau1.jpg"></div>
+                <div class="col-md-6 mt-1">
+                    <h5>Váy 1</h5>
+                    <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>Váy cưới làm lễ</span><span class="dot"></span><span>Luxury</span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Tổng số:</span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Đã Thuê:</span></div>
+                    <p class="text-justify text-truncate para mb-0">chú thích<br><br></p>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-row align-items-center">
+                        <h4 class="mr-1">2.500.000</h4>
+                    </div>
+                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button></div>
+                </div>
+            </div>
+            <div class="row p-2 bg-white border rounded mt-2">
+                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/image/mau2.png"></div>
+                <div class="col-md-6 mt-1">
+                    <h5>Váy 2</h5>
+                    <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>Váy cưới đi bàn</span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Tổng số:</span></div>
+                    <div class="mt-1 mb-1 spec-1"><span>Đã Thuê:</span></div>
+                    <p class="text-justify text-truncate para mb-0">chú thích<br><br></p>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-row align-items-center">
+                        <h4 class="mr-1">2.000.000</h4>
+                    </div>
+                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>

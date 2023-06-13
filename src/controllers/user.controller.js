@@ -19,6 +19,22 @@ class UserController {
             res.redirect('back');
         }
     }
+    async renderDetail(req, res) {
+        try {
+            const toastMsg = await req.flash('toastMsg')[0];
+            const idUser = await req.params.id;
+            const response = await UserService.getOne(idUser);
+            console.log(response);
+            res.render('user/detail', {
+                layout: 'main',
+                user: response && response.user,
+                toastMsg,
+            });
+        } catch (error) {
+            console.log(error);
+            res.redirect('back');
+        }
+    }
     async renderCreate(req, res) {
         try {
             const toastMsg = await req.flash('toastMsg')[0];

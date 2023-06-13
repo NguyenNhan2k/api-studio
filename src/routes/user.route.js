@@ -5,5 +5,6 @@ const { validation } = require('../middlewares');
 
 router.get('/', UserController.render);
 router.get('/create', UserController.renderCreate);
+router.get('/:id', UserController.renderDetail);
 router.post('/create', validation, UserController.create);
 module.exports = router;

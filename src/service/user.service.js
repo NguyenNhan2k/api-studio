@@ -32,6 +32,65 @@ class UserService {
             return response;
         }
     }
+    async update(payload) {
+        try {
+            const user = await db.Users.update(payload, { where: { id: payload.id } });
+            if (!user) {
+                this.response.setMsg('Cập nhật thất bại!');
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Cập nhật thành công!', 0);
+            await this.response.pushResult(user);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
+    async destroy(id) {
+        try {
+            const user = await db.Users.destroy({ where: { id: id } });
+            if (!user) {
+                this.response.setMsg('Xóa thất bại!');
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Xóa thành công!', 0);
+            await this.response.pushResult(user);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
+    async force(id) {
+        try {
+            const user = await db.Users.destroy({ where: { id: id }, force: true });
+            if (!user) {
+                this.response.setMsg('Xóa thất bại!');
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Xóa thành công!', 0);
+            await this.response.pushResult(user);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
+    async getOne(id) {
+        try {
+            const user = await db.Users.findOne({ where: { id: id }, raw: true });
+            if (!user) {
+                this.response.setMsg('Không tìm thấy người dùng!');
+                return this.response;
+            }
+            this.response.pushResult(user);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
     async findAll() {
         try {
             const users = await db.Users.findAll({
@@ -112,6 +171,90 @@ class UserService {
             };
             await this.response.setToastMsg('success', 'Lấy danh sách thành công!', 0);
             await this.response.pushResult(output);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
+    async restore(id) {
+        try {
+            const retore = await db.Users.restore({
+                where: {
+                    id,
+                },
+                raw: true,
+                nest: true,
+            });
+            if (!retore) {
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Khôi phục thành công!', 0);
+
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
+    async destroyMutiple(arrId) {
+        try {
+            const deleted = await db.Users.destroy({
+                where: {
+                    id: arrId,
+                },
+                raw: true,
+                nest: true,
+            });
+            if (!deleted) {
+                this.response.setMsg('Xóa thất bại!');
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Cập nhật thành công!', 0);
+            await this.response.pushResult(user);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
+    async restoreMutiple(arrId) {
+        try {
+            const restored = await db.Users.restore({
+                where: {
+                    id: arrId,
+                },
+                raw: true,
+                nest: true,
+            });
+            if (!restored) {
+                this.response.setMsg('Khôi phục thất bại!');
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Khôi phục thành công!', 0);
+            await this.response.pushResult(user);
+            return message;
+        } catch (error) {
+            console.log(error);
+            return message;
+        }
+    }
+    async forceMutiple(arrId) {
+        try {
+            const deleted = await db.Users.destroy({
+                where: {
+                    id: arrId,
+                },
+                raw: true,
+                nest: true,
+                force: true,
+            });
+            if (!deleted) {
+                this.response.setMsg('Xóa thất bại!');
+                return this.response;
+            }
+            await this.response.setToastMsg('success', 'Cập nhật thành công!', 0);
+            await this.response.pushResult(user);
             return this.response;
         } catch (error) {
             console.log(error);

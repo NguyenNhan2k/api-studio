@@ -12,6 +12,7 @@ class Route {
     async useRoute() {
         this.app.use(sort);
         this.app.use('/', authRoute);
+        this.app.use('/dashboard', main);
         // this.app.use('/v1', authRoute);
         this.app.use('/aocuoi', AuthToken.authAccessToken, aocuoiRoute);
         this.app.use('/users', AuthToken.authAccessToken, uesrRoute);

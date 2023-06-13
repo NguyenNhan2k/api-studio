@@ -15,17 +15,6 @@ class AuthJwt {
     async verifyToken(keySecrect) {
         try {
             return jwt.verify(this.token, keySecrect, async (err, decode) => {
-                // if (err.name === 'TokenExpiredError' && err.message === 'jwt expired') {
-                //     console.log('token het han');
-                //     const body = { refreshToken: newRefreshToken };
-                //     const response = await fetch('http://localhost:8000/auth/v1/refresh-token', {
-                //         method: 'post',
-                //         body: JSON.stringify(body),
-                //         headers: { 'Content-Type': 'application/json' },
-                //     });
-                //     const data = await response.json();
-                //     console.log(data);
-                // }
                 if (err) {
                     return {
                         err: true,
@@ -33,7 +22,10 @@ class AuthJwt {
                         massage: err.message,
                     };
                 }
-                return decode;
+                return {
+                    err: 0,
+                    user: decode,
+                };
             });
         } catch (error) {
             console.log(error);
@@ -55,6 +47,7 @@ class AuthJwtMiddleWare {
             if (verifyToken.err) {
                 return message.active(req, res);
             }
+            req.user = await verifyToken;
             return next();
         } catch (error) {
             console.log(error);

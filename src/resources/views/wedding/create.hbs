@@ -1,0 +1,83 @@
+<main>
+    <div class='container my-5 pt-3'>
+        <div class='row mb-2'>
+            <div class='col-sm-12 col-md-3'>
+                <a href='/weddings' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
+            </div>
+        </div>
+        <div class='row justify-content-around'>
+            <form class='p-5 col-sm-8 border' id="form-create" action="/weddings/create" method="post" enctype="multipart/form-data">
+                <div class='mb-3'>
+                    <h3 class="text-uppercase text-center">Tạo khách hàng</h3>
+                </div>
+                <div class="row mb-3 ">
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for='firstName' class='form-label'>Mã đồ cưới</label>
+                        <span>*</span>
+                        <input type='text' rules='require' name="code" class='form-control' id='code' aria-describedby='emailHelp' />
+                        <span class="form-text text-danger" ></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for='name' class='form-label'>Name</label>
+                        <span>*</span>
+                        <input type='text' name="name" rules='require' class='form-control' id='name' aria-describedby='emailHelp' />
+                        <span class='form-text text-danger'></span>
+                    </div>
+                </div>
+                <div class='form-group mb-3'>
+                    <label for='email' class='form-label'>Giá thuê</label>
+                    <span>*</span>
+                    <input type='number' rules='require' name="price" class='form-control' id='email' aria-describedby='emailHelp' />
+                    <span class='form-text text-danger'></span>
+                </div>
+                <div class='form-group mb-3 d-flex'>
+                    <select class='form-select' name="id_categories" aria-label='Default select example'>
+                        <option selected>Loại dịch vụ</option>
+                            {{#if categories}}
+                                {{#each categories}}
+                                    <option value='{{this.id}}'>{{this.value}}</option>
+                                {{/each}}
+                            {{/if}}
+                    </select>
+                </div>
+                <div class='form-group mb-3 d-flex'>
+                    <select class='form-select' name="id_categoriesWedding" aria-label='Default select example'>
+                        <option selected>Loại đồ cưới</option>
+                            {{#if weddingcategories}}
+                                {{#each weddingcategories}}
+                                    <option value='{{this.id}}'>{{this.value}}</option>
+                                {{/each}}
+                            {{/if}}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Chi tiết</label>
+                    <textarea class="form-control" name="detail" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class=' mb-3 card-imgs'>
+                    <div class='top'>
+                        <p>Drag & drop image uploading</p>
+                    </div>
+                    <div class='drag-area'>
+                        <span class='visible'>
+                            Drag & drop image here or
+                            <span class='select' role='button'>Browse</span>
+                        </span>
+                        <span class='on-drop'>Drop images here</span>
+                        <input name='images' type='file' class='images' multiple />
+                    </div>
+                    <!-- IMAGE PREVIEW CONTAINER -->
+                    <div class='container-imgs'></div>
+                </div>
+                <button type='submit' class='btn btn-primary col-sm-12'>Submit</button>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="/js/validator.js"></script>
+<script src="/js/main.js"></script>
+<script >
+    validator('#form-create', '.form-group');
+    handleMutipleImage();
+</script>

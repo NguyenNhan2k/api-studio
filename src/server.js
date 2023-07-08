@@ -4,6 +4,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const dotenv = require('dotenv');
+const methodOverride = require('method-override');
 const app = express();
 dotenv.config();
 const path = require('path');
@@ -46,6 +47,7 @@ class Server {
                 }),
             );
             // override with POST having ?_method=DELETE
+            app.use(methodOverride('_method'));
             app.use(bodyParser.urlencoded({ extended: true }));
             app.use(bodyParser.json());
             app.use(cookieParser());

@@ -29,19 +29,20 @@ module.exports = {
             phone: {
                 type: Sequelize.STRING,
             },
-            type_login: {
-                type: Sequelize.STRING,
-            },
-            id_login: {
-                type: Sequelize.STRING,
+            wage: {
+                type: Sequelize.INTEGER,
             },
             avatar: {
                 type: Sequelize.STRING,
+                defaultValue: 'user.png',
             },
             refresh_token: {
                 type: Sequelize.STRING,
             },
             id_role: {
+                type: Sequelize.STRING,
+            },
+            id_position: {
                 type: Sequelize.STRING,
             },
             createdAt: {

@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            User.belongsTo(models.Roles, { foreignKey: 'id_role', targetKey: 'code', as: 'role' });
+            User.belongsTo(models.Roles, { foreignKey: 'id_role', as: 'role' });
+            User.belongsTo(models.Positions, { foreignKey: 'id_position', as: 'position' });
         }
     }
     User.init(
@@ -29,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
             password: DataTypes.STRING,
             address: DataTypes.STRING,
             phone: DataTypes.STRING,
-            type_login: DataTypes.STRING,
-            id_login: DataTypes.STRING,
+            wage: DataTypes.INTEGER,
             avatar: DataTypes.STRING,
             refresh_token: DataTypes.STRING,
             id_role: DataTypes.STRING,
+            id_position: DataTypes.STRING,
         },
         {
             sequelize,

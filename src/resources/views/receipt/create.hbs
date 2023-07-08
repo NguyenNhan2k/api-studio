@@ -1,0 +1,78 @@
+<main>
+    <div class='container my-5 pt-3'>
+        <div class='row mb-2'>
+            <div class='col-sm-12 col-md-3'>
+                <a href='/accessories' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
+            </div>
+        </div>
+        <div class='row justify-content-around '>
+            <form class='p-5 col-sm-8 border' id="form-create" action="/accessories/create" method="post" >
+                <div class='mb-3'>
+                    <h3 class="text-uppercase text-center">Thêm phiếu nhập</h3>
+                </div>
+                <div class="row mb-3 pb-3 border-bottom">
+                    <div class="form-group">
+                        <label for='firstName' class='form-label'>Mã phiếu</label>
+                        <span>*</span>
+                        <input type='text' rules='require' name="code" class='form-control' id='code' aria-describedby='emailHelp' />
+                        <span class="form-text text-danger" ></span>
+                    </div>
+                </div> 
+                <div class="text-center">
+                {{> modal-create-receipt}}
+                <div class='card '>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Chi tiết phiếu nhập
+                        </div>
+                        <div class='card-body'>                          
+                            <div class='table-responsive mt-2'>
+                                <table id='example' class='table table-striped data-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên sản phẩm </th>
+                                            <th>Số lượng</th>
+                                            <th>Đơn giá</th>
+                                            <th>Tổng </th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                                <tr>
+                                                    <td>
+                                                       1
+                                                    </td>
+                                                    <td>Áo cưới</td>
+                                                    <td >2</td>
+                                                    <td>2000000</td>
+                                                    <td>4000000</td>
+                                                    <td>
+                                                        <button
+                                                            class='btn btn-danger px-1 py-1'
+                                                        >
+                                                            <i class='fa-solid fa-trash'></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                        
+                                            {{!-- <td colspan='12' class='text-center'>
+                                                Danh sách trống !
+                                            </td> --}}
+                                     
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                <button type='submit' class='btn btn-primary col-sm-12'>Submit</button>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="/js/validator.js"></script>
+<script src="/js/main.js"></script>
+<script >
+    validator('#form-create', '.form-group');
+</script>

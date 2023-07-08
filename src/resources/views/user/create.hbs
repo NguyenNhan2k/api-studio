@@ -2,7 +2,7 @@
     <div class='container my-5 pt-3'>
         <div class='row mb-2'>
             <div class='col-sm-12 col-md-3'>
-                <a href='/user' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                <a href='/users' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
                     về</a>
             </div>
         </div>
@@ -38,6 +38,12 @@
                      <span class='form-text text-danger'></span>
                 </div>
                 <div class='form-group mb-3'>
+                    <label for='wage' class='form-label'>Lương cơ bản</label>
+                     <span>*</span>
+                    <input type='number' rules="require" name="wage" class='form-control' id='wage' />
+                     <span class='form-text text-danger'></span>
+                </div>
+                <div class='form-group mb-3'>
                     <label for='password' class='form-label'>Password</label>
                      <span>*</span>
                     <input type='password' rules="require" name="password" class='form-control' id='password' />
@@ -49,11 +55,19 @@
                     <input type='password' name="comfirmPwd"  rules="require|isConfirmed" class='form-control' id='comfirmPwd' />
                      <span class='form-text text-danger'></span>
                 </div>
-                <div class='mb-3 col-sm-12 col-md-3'>
-                    <select class='form-select' name="idRole" aria-label='Default select example'>
+                <div class='form-group mb-3 d-flex'>
+                    <select class='form-select me-2' name="idRole" aria-label='Default select example'>
                         <option selected>Roles</option>
                         {{#if roles}}
                             {{#each roles}}
+                                <option value='{{this.id}}'>{{this.value}}</option>
+                            {{/each}}
+                        {{/if}}
+                    </select>
+                    <select class='form-select' name="idPosition" aria-label='Default select example'>
+                        <option selected>Chức vụ</option>
+                        {{#if positions}}
+                            {{#each positions}}
                                 <option value='{{this.id}}'>{{this.value}}</option>
                             {{/each}}
                         {{/if}}

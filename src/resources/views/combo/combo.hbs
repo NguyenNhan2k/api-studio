@@ -1,0 +1,121 @@
+<main>
+    <div class='container mt-5 pt-3'>
+        <div class='row mb-2'>
+            <div class='col-sm-12 col-md-8'>
+                <h4>PHỤ KIỆN</h4>
+            </div>
+            <div class='col-sm-12 col-md-4 pe-4'>
+                <a href='/combos/trash' class='btn btn-primary ms-3 position-relative'>
+                    <i class='fa-solid fa-trash me-1'></i>
+                    Thùng rác({{{countDeleted}}})
+                </a>
+                <a href='/combos/create' class='btn btn-success float-end me-3'><i class='fa-solid fa-plus me-2'></i>Add new</a>
+            </div>
+
+        </div>
+        <form action='/combos/handleAction' method='post' class='row'>
+            <div class='row'>
+                <div class='col-md-12 mb-3'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Data Table
+                        </div>
+                        <div class='card-body'>
+                            <div class='md-4 d-flex align-items-center'>
+                                <div class='form-check me-2 p-0 ms-1'>
+                                    <input class='check-all' type='checkbox' value='' id='flexCheckDefault' />
+                                    <label class='form-check-label' for='flexCheckDefault'>
+                                        Check All
+                                    </label>
+                                </div>
+                                <select class='form-select w-25 me-2 text-center' name='action' aria-label='Default select example'>
+                                    <option selected>--- Hành động ---</option>
+                                    <option value='delete'>Xóa</option>
+                                </select>
+                                <button class='btn btn-primary submit' type='submit' disabled>Thực hiện</button>
+                                <div class='d-flex flex-row-reverse w-50 ms-auto my-3 my-lg-0 list-group position-relative'>
+                                    <div class='w-75 input-group float-end'>
+                                        <input class='form-control' type='search' placeholder='Search' id='search' aria-label='Search' />
+                                        <button class='btn btn-primary btn-search'>
+                                            <i class='bi bi-search'></i>
+                                        </button>
+                                    </div>
+                                    <ul style='z-index: 100;' class='list-group position-absolute top-100 w-75 h-100 text-center' id='myList'>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class='table-responsive mt-2'>
+                                <table id='example' class='table table-striped data-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Mã {{{sortable 'code' _sort _page}}}</th>
+                                            <th>Name {{{sortable 'name' _sort _page}}}</th>
+                                            <th>price {{{sortable 'price' _sort _page}}}</th>
+                                            <th>CreatedAt{{{sortable 'createdAt' _sort _page}}}</th>
+                                            <th>Chi tiết</th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if combos}}
+                                            {{#each combos}}
+                                                <tr>
+                                                    <td>
+                                                        <div class='form-check'>
+                                                            <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='combos[]' value='{{this.id}}' />
+                                                        </div>
+                                                    </td>
+                                                    <td>{{this.code}}</td>
+                                                    <td class='w-25'>{{this.name}}</td>
+                                                    <td class='ps-2'>{{this.price}}</td>
+                                                    <td>{{convertToDate this.createdAt}}</td>
+                                                    <td>
+                                                        <a href='/combos/{{this.slug}}' class='btn btn-primary px-1 py-1'>
+                                                            <i class='fa-solid fa-pen'></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            class='btn btn-danger px-1 py-1'
+                                                            id='delete-combos'
+                                                            data-table='combos'
+                                                            data-actions='destroy'
+                                                            data-id='{{this.id}}'
+                                                        >
+                                                            <i class='fa-solid fa-trash'></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                        {{else}}
+                                            <td colspan='12' class='text-center'>
+                                                Danh sách trống !
+                                            </td>
+                                        {{/if}}
+                                    </tbody>
+                                </table>
+                                {{#if combos}}
+                                    <nav aria-label='...' class=''>
+                                        {{{paging _page countPage}}}
+                                    </nav>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <dir></dir>
+</main>
+<form id='deleteOne' method='post'></form>
+<script src='/js/main.js'></script>
+<script src='/js/search.js'></script>
+<script src='/js/displayModalComment.js'></script>
+<script>
+    closeModal('.close','.btn-secondary','#delete-combos', 'Xóa thông tin khách hàng','Bạn có chắc chắn muốn xóatrường này?'); handelCheckedBox('input[name="combos[]"]:checked');
+    displaySearch('.btn-search', '#search', 'combos', '#myList', searchWedding);
+</script>

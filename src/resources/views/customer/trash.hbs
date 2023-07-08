@@ -1,0 +1,108 @@
+<main>
+    <div class='container mt-5 pt-3'>
+        <div class='row mb-2'>
+            <div class='col-sm-12 col-md-3'>
+                <a href='/customers' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
+            </div>
+        </div>
+        <form action="/customers/handleAction" method="post" class='row'>
+            <div class='row'>
+                <div class='col-md-12 mb-3'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Data Table
+                        </div>
+                        <div class='card-body'>
+                            <div class='md-4 d-flex align-items-center'>
+                                <div class='form-check me-2 p-0 ms-1'>
+                                    <input class='check-all' type='checkbox' value='' id='flexCheckDefault' />
+                                    <label class='form-check-label' for='flexCheckDefault'>
+                                        Check All
+                                    </label>
+                                </div>
+                                <select class='form-select w-25 me-2 text-center' name="action" aria-label='Default select example'>
+                                    <option selected>--- Hành động ---</option>
+                                    <option value='restore'>Khôi phục</option>
+                                    <option value='force'>Xóa vĩnh viễn</option>
+                                </select>
+                                <button class='btn btn-primary submit' type='submit'>Thực hiện</button>
+                                <div class='d-flex ms-auto my-3 my-lg-0'>
+                                    <div class='input-group'>
+                                        <input class='form-control' type='search' placeholder='Search' aria-label='Search' />
+                                        <button class='btn btn-primary' type='submit'>
+                                            <i class='bi bi-search'></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='table-responsive mt-2'>
+                                <table id='example' class='table table-striped data-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name {{{sortable 'lastName' _sort _page}}}</th>
+                                            <th>Email {{{sortable 'email' _sort _page}}}</th>
+                                            <th>Phone {{{sortable 'phone' _sort _page}}}</th>
+                                            <th>Address {{{sortable 'phone' _sort _page}}}</th>
+                                            <th>Deleted{{{sortable 'destroyTime' _sort _page}}}</th>
+                                            <th>Khôi phục</th>
+                                            <th>Xóa vĩnh viễn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if customers}}
+                                            {{#each customers}}
+                                                <tr>
+                                                    <td>
+                                                        <div class='form-check'>
+                                                            <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='customers[]' value='{{this.id}}' />
+                                                        </div>
+                                                    </td>
+                                                    <td>{{this.firstName}} {{this.lastName}}</td>
+                                                    <td>{{this.email}}</td>
+                                                    <td>{{this.phone}}</td>
+                                                    <td>{{this.address}}</td>
+                                                    <td>{{convertToDate this.destroyTime}}</td>
+                                                    <td >
+                                                        <button class='btn btn-primary px-1 py-1 ms-3' id='restore-customers' data-table='customers' data-actions='restore' data-id='{{this.id}}'>
+                                                            <i class="bi bi-arrow-clockwise"></i>
+                                                        </button>
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <button class='btn btn-danger px-1 py-1 ms-3' id='delete-customers' data-table='customers' data-actions='force' data-id='{{this.id}}'>
+                                                            <i class='fa-solid fa-trash'></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                        {{else}}
+                                            <td colspan='12' class='text-center'>
+                                                Danh sách trống !
+                                            </td>
+                                        {{/if}}
+                                    </tbody>
+                                </table>
+                                {{#if customers}}
+                                    <nav aria-label='...' class=''>
+                                        {{{paging _page countPage}}}
+                                    </nav>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<form id='deleteOne' method='post'></form>
+<script src='/js/main.js'></script>
+<script src='/js/displayModalComment.js'></script>
+<script>
+    closeModal('.close','.btn-secondary','#delete-customers', 'Xóa thông tin khách hàng','Xóa vĩnh viễn khách hàng, Bạn đã chắc chắn?');
+    closeModal('.close','.btn-secondary','#restore-customers', 'Khôi phục khách hàng','Khôi phục khách hàng, Bạn đã chắc chắn?');
+    handelCheckedBox('input[name="customers[]"]:checked');
+</script>

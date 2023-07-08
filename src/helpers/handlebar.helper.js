@@ -24,6 +24,31 @@ const handlebar = {
             <a href="${href}"><i class="${icon} text-secondary"></i> </a>`;
         return new Handlebars.SafeString(output);
     },
+    toString: (payload) => {
+        console.log(payload);
+    },
+    displaySelected: (arrValue, compareValue) => {
+        if (!Array.isArray(arrValue) && arrValue.length < 0) {
+            return '';
+        }
+        const options = arrValue.map((option) => {
+            const output = `<option value="${option.id}" ${option.value == compareValue ? 'selected' : ''}>${option.value} </option>`;
+            return output;
+        });
+        return new Handlebars.SafeString(options);
+    },
+    sliderImages: (images) => {
+        if (!Array.isArray(images) && images.length < 0) {
+            return '';
+        }
+        const options = images.map((img, index) => {
+            const output = `    <div class='carousel-item ${index === 0 && 'active'}'>
+                <img src='/images/weddings/${img.name}' class='d-block w-100 h-100' alt='...' />
+            </div>`;
+            return output;
+        });
+        return new Handlebars.SafeString(options);
+    },
     paging: (page, countPage) => {
         const indexPage = [];
         for (let i = 1; i < countPage + 1; i++) {

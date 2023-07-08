@@ -2,9 +2,11 @@ const { ElertMessage, hashPassword } = require('../helpers');
 const db = require('../models');
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
+const ModelInstance = require('../core/base.service');
 class UserService {
     constructor() {
         this.response = new ElertMessage('danger', 'Hàng động thất bại', 1);
+        this.instance = new ModelInstance(db.Users);
     }
     async create(payload) {
         try {
@@ -14,7 +16,9 @@ class UserService {
                 email: payload.email,
                 phone: payload.phone,
                 address: payload.address,
+                wage: payload.wage,
                 id_role: payload.idRole,
+                id_position: payload.idPosition,
                 password: hashPassword(payload.password),
             };
             const [user, created] = await db.Users.findOrCreate({
@@ -22,7 +26,7 @@ class UserService {
                 defaults: params,
             });
             if (!created) {
-                this.response.setMsg('Tài khoản đã tồn tại!');
+                await this.response.setToastMsg('danger', 'Tài khoản đã tồn tại !', 1);
                 return this.response;
             }
             await this.response.setToastMsg('success', 'Tạo tài khoản thành công!', 0);
@@ -32,16 +36,30 @@ class UserService {
             return response;
         }
     }
-    async update(payload) {
+    async convertParams(payload) {
+        let output = {};
+        if (payload) {
+            output = {
+                lastName: payload.lastName,
+                firstName: payload.firstName,
+                email: payload.email,
+                phone: payload.phone,
+                avatar: payload.avatar,
+                address: payload.address,
+                wage: payload.wage,
+                id_role: payload.idRole,
+                id_position: payload.idPosition,
+                ...(payload.avatar ? { avatar: payload.avatar } : {}),
+            };
+        }
+
+        return output;
+    }
+    async update(id, payload) {
         try {
-            const user = await db.Users.update(payload, { where: { id: payload.id } });
-            if (!user) {
-                this.response.setMsg('Cập nhật thất bại!');
-                return this.response;
-            }
-            await this.response.setToastMsg('success', 'Cập nhật thành công!', 0);
-            await this.response.pushResult(user);
-            return this.response;
+            const params = await this.convertParams(payload);
+            const response = await this.instance.update(params, { where: { id: id } });
+            return response;
         } catch (error) {
             console.log(error);
             return this.response;
@@ -77,14 +95,47 @@ class UserService {
             return this.response;
         }
     }
+    async findOne(queries) {
+        try {
+            const user = await db.Users.findOne(queries);
+            if (!user) {
+                return false;
+            }
+            return user.toJSON();
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
     async getOne(id) {
         try {
-            const user = await db.Users.findOne({ where: { id: id }, raw: true });
+            const queries = await {
+                where: { id: id },
+                include: [
+                    {
+                        model: db.Roles,
+                        as: 'role',
+                        attributes: {
+                            exclude: ['updatedAt'],
+                        },
+                    },
+                    {
+                        model: db.Positions,
+                        as: 'position',
+                        attributes: {
+                            exclude: ['updatedAt'],
+                        },
+                    },
+                ],
+                nest: true,
+            };
+            let user = await this.findOne(queries);
             if (!user) {
                 this.response.setMsg('Không tìm thấy người dùng!');
                 return this.response;
             }
-            this.response.pushResult(user);
+
+            await this.response.pushResult({ user });
             return this.response;
         } catch (error) {
             console.log(error);
@@ -110,6 +161,20 @@ class UserService {
             return false;
         }
     }
+    async convertJson(payload) {
+        try {
+            if (Array.isArray(payload) && payload.length > 0) {
+                const result = await payload.map((user) => {
+                    return user.toJSON();
+                });
+                return result;
+            }
+            return false;
+        } catch (error) {
+            console.log(error);
+            return this.response;
+        }
+    }
     async findAndCountAll(deleted = true) {
         const users = await db.Users.findAndCountAll({
             where: {
@@ -125,24 +190,45 @@ class UserService {
         });
         return users;
     }
-    async getAll({ page, order, deleted = true }) {
+    filterSearch(columns, searchQuery) {
+        const filter = columns.map((column) => {
+            return {
+                [column]: { [op.like]: '%' + searchQuery + '%' },
+            };
+        });
+        return filter;
+    }
+    async getAll({ page, order, deleted = true }, searchQuery = '') {
         try {
             const offset = (await !page) || +page < 1 ? 0 : +page - 1;
+            const colunms = await ['id', 'lastName', 'firstName', 'email', 'phone'];
+            const filters = await this.filterSearch(colunms, searchQuery);
             const limit = await process.env.QUERY_LIMIT;
             const queries = await {
                 attributes: {
-                    exclude: ['password', 'refresh_token', , 'updatedAt', 'id_role'],
+                    exclude: ['password', 'refresh_token', , 'updatedAt'],
                 },
-                include: {
-                    model: db.Roles,
-                    as: 'role',
-                    attributes: {
-                        exclude: [, 'updatedAt'],
+                include: [
+                    {
+                        model: db.Roles,
+                        as: 'role',
+                        attributes: {
+                            exclude: ['updatedAt'],
+                        },
                     },
-                },
-                raw: true,
+                    {
+                        model: db.Positions,
+                        as: 'position',
+                        attributes: {
+                            exclude: ['updatedAt'],
+                        },
+                    },
+                ],
                 nest: true,
             };
+            if (searchQuery) {
+                queries.where = await { [op.or]: filters };
+            }
             if (order.length > 0) {
                 queries.order = await [order];
             }
@@ -159,13 +245,14 @@ class UserService {
             const { count, rows } = await db.Users.findAndCountAll({
                 ...queries,
             });
+            const newUsers = await this.convertJson(rows);
             const countDeleted = await this.findAndCountAll(false);
             const countPage = await Math.ceil(count / limit);
             if (!rows) {
                 return this.response;
             }
             const output = await {
-                users: rows,
+                users: newUsers,
                 countPage,
                 countDeleted: countDeleted.count,
             };
@@ -190,7 +277,6 @@ class UserService {
                 return this.response;
             }
             await this.response.setToastMsg('success', 'Khôi phục thành công!', 0);
-
             return this.response;
         } catch (error) {
             console.log(error);
@@ -199,19 +285,19 @@ class UserService {
     }
     async destroyMutiple(arrId) {
         try {
-            const deleted = await db.Users.destroy({
+            const restoreUser = await db.Users.destroy({
                 where: {
                     id: arrId,
                 },
                 raw: true,
                 nest: true,
             });
-            if (!deleted) {
-                this.response.setMsg('Xóa thất bại!');
+            console.log(restoreUser);
+            if (!restoreUser) {
+                await this.response.setMsg('Xóa thất bại!');
                 return this.response;
             }
-            await this.response.setToastMsg('success', 'Cập nhật thành công!', 0);
-            await this.response.pushResult(user);
+            await this.response.setToastMsg('success', 'Xóa thành công!', 0);
             return this.response;
         } catch (error) {
             console.log(error);
@@ -232,8 +318,7 @@ class UserService {
                 return this.response;
             }
             await this.response.setToastMsg('success', 'Khôi phục thành công!', 0);
-            await this.response.pushResult(user);
-            return message;
+            return this.response;
         } catch (error) {
             console.log(error);
             return message;

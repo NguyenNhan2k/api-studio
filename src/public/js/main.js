@@ -2,7 +2,6 @@ const handelCheckedBox = (nameInput) => {
     var submitElement = document.querySelector('.submit');
     var checkAll = document.querySelector('.check-all');
     var checkInputs = document.querySelectorAll('.form-check-input');
-    console.log(submitElement, checkAll, checkInputs);
     if (checkAll) {
         checkAll.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
@@ -44,5 +43,67 @@ const hiddenPwd = () => {
             }
         });
 };
+let files = [],
+    dragArea = document.querySelector('.drag-area'),
+    input = document.querySelector('.drag-area input'),
+    button = document.querySelector('.card button');
+select = document.querySelector('.drag-area .select');
+container = document.querySelector('.container-imgs');
+function handleMutipleImage() {
+    if (select && input) {
+        select.addEventListener('click', () => input.click());
+        input.addEventListener('change', () => {
+            let file = input.files;
+            // if user select no image
+            if (file.length == 0) return;
 
+            for (let i = 0; i < file.length; i++) {
+                if (file[i].type.split('/')[0] != 'image') continue;
+                if (!files.some((e) => e.name == file[i].name)) files.push(file[i]);
+            }
+
+            input.files = null;
+            showImages();
+        });
+        /* DRAG & DROP */
+        dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('dragover');
+        });
+
+        /* DRAG LEAVE */
+        dragArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dragArea.classList.remove('dragover');
+        });
+
+        /* DROP EVENT */
+        dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragArea.classList.remove('dragover');
+
+            let file = e.dataTransfer.files;
+            for (let i = 0; i < file.length; i++) {
+                /** Check selected file is image */
+                if (file[i].type.split('/')[0] != 'image') continue;
+
+                if (!files.some((e) => e.name == file[i].name)) files.push(file[i]);
+            }
+            showImages();
+        });
+    }
+}
+function showImages() {
+    let images = files.reduce(function (prev, file, index) {
+        return (prev += `<div class="image">
+         <img src="${URL.createObjectURL(file)}" alt="image">
+         <span onclick="delImage(${index})">&times;</span>
+     </div>`);
+    }, '');
+    container.innerHTML = images;
+}
+function delImage(index) {
+    files.splice(index, 1);
+    showImages(files);
+}
 hiddenPwd();

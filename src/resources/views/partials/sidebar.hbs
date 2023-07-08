@@ -8,7 +8,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href='#' class='nav-link px-3'>
+                    <a href='/dashboard' class='nav-link px-3'>
                         <span class='me-2'><i class='bi bi-speedometer2'></i></span>
                         <span>Dashboard</span>
                     </a>
@@ -20,67 +20,83 @@
                     </div>
                 </li>
                 <li>
-                    <a class='nav-link px-3 sidebar-link' data-bs-toggle='collapse' href='#layouts'>
-                        <span class='me-2'><i class='bi bi-layout-split'></i></span>
-                        <span>Layouts</span>
-                        <span class='ms-auto'>
-                            <span class='right-icon'>
-                                <i class='bi bi-chevron-down'></i>
-                            </span>
-                        </span>
-                    </a>
-                    <div class='collapse' id='layouts'>
-                        <ul class='navbar-nav ps-3'>
-                            <li>
-                                <a href='/dashboard' class='nav-link px-3'>
-                                    <span class='me-2'><i class='bi bi-speedometer2'></i></span>
-                                    <span>Dashboard</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/users' class='nav-link px-3'>
-                                    <span class='me-2'><i class='fa-solid fa-users text-secondary'></i></span>
-                                    <span>Users</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/users' class='nav-link px-3'>
-                                    <span class='me-2'><i class='fa-regular fa-images'></i></span>
-                                    <span>Album</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/users' class='nav-link px-3'>
-                                    <span class='me-2'> <i class='fa-solid fa-shirt'></i></span>
-                                    <span>Áo cưới</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/users' class='nav-link px-3'>
-                                    <span class='me-2'><i class='fa-solid fa-gears'></i></span>
-                                    <span>Dịch vụ</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/users' class='nav-link px-3'>
-                                    <span class='me-2'><i class='fa-solid fa-users text-secondary'></i></span>
-                                    <span>Danh sách cho thuê</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/users' class='nav-link px-3'>
-                                    <span class='me-2'><i class='fa-solid fa-receipt'></i></span>
-                                    <span>Hóa đơn</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/calendars' class='nav-link px-3'>
-                                    <span class='me-2'><i class='fa-solid fa-calendar-days'></i></span>
-                                    <span>Lịch làm việc</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+
+                    <ul class='navbar-nav ps-3'>
+                        <li>
+                            <a href='/users' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-users text-secondary'></i></span>
+                                <span>Thông tin Nhân viên</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/positions' class='nav-link px-3'>
+                                <span class='me-2'> <i class='fa-solid fa-registered'></i></span>
+                                <span>Chức vụ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/customers' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-users-line'></i></span>
+                                <span>Khách hàng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/categories' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-list'></i></span>
+                                <span>Danh mục chung </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/wedding-categories' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-list'></i></span>
+                                <span>Danh mục Đồ cưới </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/accessories' class='nav-link px-3'>
+                                <span class='me-2'> <i class='fa-brands fa-product-hunt'></i></span>
+                                <span>Phụ kiện</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/weddings' class='nav-link px-3'>
+                                <span class='me-2'> <i class='fa-solid fa-shirt'></i></span>
+                                <span>Đồ cưới</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/combos' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-gears'></i></span>
+                                <span>Dịch vụ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/receipts' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-receipt'></i></span>
+                                <span>Phiếu nhập</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href='/users' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-users text-secondary'></i></span>
+                                <span>Danh sách cho thuê</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/users' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-receipt'></i></span>
+                                <span>Hóa đơn</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/calendars' class='nav-link px-3'>
+                                <span class='me-2'><i class='fa-solid fa-calendar-days'></i></span>
+                                <span>Lịch làm việc</span>
+                            </a>
+                        </li>
+                    </ul>
+
                 </li>
                 <li>
                     <a href='#' class='nav-link px-3'>

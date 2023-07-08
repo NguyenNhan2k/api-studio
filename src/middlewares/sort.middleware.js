@@ -12,6 +12,9 @@ module.exports = function sort(req, res, next) {
         enable: false,
         index: 1,
     };
+    res.locals._search = {
+        value: '',
+    };
     if (req.query.hasOwnProperty('page')) {
         Object.assign(res.locals._page, {
             enable: true,
@@ -29,6 +32,11 @@ module.exports = function sort(req, res, next) {
             enable: true,
             type: req.query.type,
             column: req.query.column,
+        });
+    }
+    if (req.query.hasOwnProperty('_search')) {
+        Object.assign(res.locals._search, {
+            value: req.query.search,
         });
     }
     next();

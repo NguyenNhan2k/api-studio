@@ -66,3 +66,187 @@ input {
     color: #616060;
     cursor: pointer;
 }
+.picture-container {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+.picture {
+    width: 106px;
+    height: 106px;
+    background-color: #999999;
+    border: 4px solid #cccccc;
+    color: #ffffff;
+    border-radius: 50%;
+    margin: 0px auto;
+    overflow: hidden;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+.picture:hover {
+    border-color: #2ca8ff;
+}
+.content.ct-wizard-green .picture:hover {
+    border-color: #05ae0e;
+}
+.content.ct-wizard-blue .picture:hover {
+    border-color: #3472f7;
+}
+.content.ct-wizard-orange .picture:hover {
+    border-color: #ff9500;
+}
+.content.ct-wizard-red .picture:hover {
+    border-color: #ff3b30;
+}
+.picture input[type='file'] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.picture-src {
+    width: 100%;
+}
+#myList li {
+    cursor: pointer;
+}
+#myList li a {
+    text-decoration: none;
+    color: #616060;
+}
+#myList li:hover {
+    background-color: #ada8a8;
+}
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600&display=swap');
+.card-imgs {
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+    padding: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    overflow: hidden;
+    background: #fafbff;
+}
+
+.card-imgs .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.card-imgs p {
+    font-weight: 600;
+    color: #878a9a;
+}
+
+.card-imgs button {
+    outline: 0;
+    border: 0;
+    height: 4rem;
+    width: 10rem;
+    -webkit-appearence: none;
+    background: #5256ad;
+    color: #fff;
+    border-radius: 4px;
+    transition: 0.3s;
+    cursor: pointer;
+    font-weight: 400;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    font-size: 1rem;
+    padding: 8px 13px;
+}
+
+.card-imgs-imgs button:hover {
+    opacity: 0.8;
+}
+
+.card-imgs-imgs button:active {
+    transform: translateY(5px);
+}
+
+.card-imgs .drag-area {
+    width: 100%;
+    height: 160px;
+    border-radius: 5px;
+    border: 2px dashed #d5d5e1;
+    color: #c8c9dd;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    background: #dfe3f259;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+    margin-top: 10px;
+}
+
+.card-imgs .drag-area .visible {
+    font-size: 18px;
+}
+.card-imgs .select {
+    color: #5256ad;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.card-imgs .select:hover {
+    opacity: 0.6;
+}
+
+.card-imgs .container-imgs {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.card-imgs .container-imgs .image {
+    width: calc(26% - 19px);
+    margin-right: 15px;
+    height: 75px;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.card-imgs .container-imgs .image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.card-imgs .container-imgs .image span {
+    position: absolute;
+    top: -2px;
+    right: 9px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.card-imgs .drag-area.dragover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.card-imgs .drag-area.dragover .on-drop {
+    display: inline;
+    font-size: 28px;
+}
+
+.card-imgs input,
+.card-imgs .drag-area .on-drop,
+.card-imgs .drag-area.dragover .visible {
+    display: none;
+}

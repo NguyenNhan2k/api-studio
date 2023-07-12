@@ -35,22 +35,31 @@ class AuthJwt {
 }
 class AuthJwtMiddleWare {
     async authAccessToken(req, res, next) {
-        const message = new ElertMessage('danger', 'Vui lòng đăng nhập để tiếp tục!', 1);
+        const message = await {
+            type: 'danger',
+            message: 'Vui lòng đăng nhập để tiếp tục!',
+            err: 1,
+        };
         try {
+            res.redirect('back');
+            return 0;
             const params = await req.cookies.accessToken;
             if (!params) {
-                return message.active(req, res);
+                await req.flash('toastMsg', message);
+                return res.redirect('back');
             }
             const token = await new AuthJwt(params);
             await token.handdleToken();
             const verifyToken = await token.verifyToken(process.env.SECRECT_KEY_ACCESSTOKEN);
             if (verifyToken.err) {
-                return message.active(req, res);
+                await req.flash('toastMsg', message);
+                res.redirect('back');
             }
             req.user = await verifyToken;
             return next();
         } catch (error) {
-            console.log(error);
+            await req.flash('toastMsg', message);
+            res.redirect('back');
         }
     }
 }

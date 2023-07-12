@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Receipt.hasMany(models.DetailReceipts, { foreignKey: 'id_receipt', as: 'detailReceipts' });
         }
     }
     Receipt.init(
@@ -28,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     );
     Receipt.beforeCreate((wedding, _) => {
         wedding.id = uuid();
-        wedding.slug = slug(wedding.name);
     });
     return Receipt;
 };

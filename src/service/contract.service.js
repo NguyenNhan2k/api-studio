@@ -2,24 +2,12 @@ const { ElertMessage } = require('../helpers');
 const db = require('../models');
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
-class ReceiptService {
+class ContractService {
     constructor() {
         this.response = new ElertMessage('danger', 'Hàng động thất bại', 1);
     }
     async create({ ...payload }) {
         try {
-            // {
-            //     code: maP01,
-            //
-            //     receiptDetail: [
-            //         {
-            //             id_target: 1,
-            //             quanlity: 2,
-            //             price: 100000,
-            //             total: 2000000,
-            //         }
-            //     ]
-            // }
             const paramsReceipt = await {
                 code: payload.code,
             };
@@ -410,4 +398,4 @@ class ReceiptService {
         }
     }
 }
-module.exports = new ReceiptService();
+module.exports = new ContractService();

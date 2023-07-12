@@ -31,14 +31,10 @@ class CategoriesService {
     async create(payload) {
         try {
             const params = await {
-                code: payload.code,
-                name: payload.name,
-                price: payload.price,
-                id_categories: payload.id_categories,
-                detail: payload.detail,
+                value: payload.value,
             };
-            const [customers, created] = await db.Accessories.findOrCreate({
-                where: { code: params.code },
+            const [customers, created] = await db.Categories.findOrCreate({
+                where: { value: params.value },
                 defaults: params,
             });
             if (!created) {
@@ -185,6 +181,22 @@ class CategoriesService {
                 attributes: {
                     exclude: ['updatedAt'],
                 },
+                include: [
+                    {
+                        model: db.Weddings,
+                        as: 'weddings',
+                        attributes: {
+                            exclude: ['updatedAt'],
+                        },
+                    },
+                    {
+                        model: db.Accessories,
+                        as: 'accessories',
+                        attributes: {
+                            exclude: ['updatedAt'],
+                        },
+                    },
+                ],
             };
             if (searchQuery) {
                 queries.where = await { [op.or]: filters };

@@ -2,12 +2,12 @@
     <div class='container my-5 pt-3'>
         <div class='row mb-2'>
             <div class='col-sm-12 col-md-3'>
-                <a href='/accessories' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                <a href='/receipts' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
                     về</a>
             </div>
         </div>
         <div class='row justify-content-around '>
-            <form class='p-5 col-sm-8 border' id="form-create" action="/accessories/create" method="post" >
+            <form class='p-5 col-sm-8 border' id="form-create" action="/receipts/create" method="post" >
                 <div class='mb-3'>
                     <h3 class="text-uppercase text-center">Thêm phiếu nhập</h3>
                 </div>
@@ -19,8 +19,10 @@
                         <span class="form-text text-danger" ></span>
                     </div>
                 </div> 
-                <div class="text-center">
-                {{> modal-create-receipt}}
+                <button type='button' class='btn btn-success btn-active-receipt mb-2'>
+                    <i class='fa-solid fa-plus pe-1'></i>
+                    Thêm mới
+                </button>    
                 <div class='card '>
                         <div class='card-header'>
                             <span><i class='bi bi-table me-2'></i></span>
@@ -36,26 +38,11 @@
                                             <th>Số lượng</th>
                                             <th>Đơn giá</th>
                                             <th>Tổng </th>
+                                            <th>Cập nhật </th>
                                             <th>Xóa</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                                <tr>
-                                                    <td>
-                                                       1
-                                                    </td>
-                                                    <td>Áo cưới</td>
-                                                    <td >2</td>
-                                                    <td>2000000</td>
-                                                    <td>4000000</td>
-                                                    <td>
-                                                        <button
-                                                            class='btn btn-danger px-1 py-1'
-                                                        >
-                                                            <i class='fa-solid fa-trash'></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                    <tbody class="tbody-receipt">                                              
                                         
                                             {{!-- <td colspan='12' class='text-center'>
                                                 Danh sách trống !
@@ -71,6 +58,8 @@
         </div>
     </div>
 </main>
+ {{> modal-create-receipt}}
+
 <script src="/js/validator.js"></script>
 <script src="/js/main.js"></script>
 <script >

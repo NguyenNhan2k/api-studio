@@ -1,36 +1,53 @@
-<div class='modal fade' id='modalSubscriptionForm' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-    <div class='modal-dialog' role='document'>
+<!-- Modal -->
+<div class='modal fade show modal-receipt' id='modal-receipt' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+    <div class='modal-dialog'>
         <div class='modal-content'>
-            <div class='modal-header text-center'>
-                <h4 class='modal-title w-100 font-weight-bold'>Subscribe</h4>
-                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
+            <div class='modal-header'>
+                <h1 class='modal-title fs-5' id='exampleModalLabel'>Modal title</h1>
+                <button type='button' class='btn-close btn-close-receipt' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
-            <div class='modal-body mx-3'>
-                <div class='md-form mb-5'>
-                    <i class='fas fa-user prefix grey-text'></i>
-                    <input type='text' id='form3' class='form-control validate' />
-                    <label data-error='wrong' data-success='right' for='form3'>Your name</label>
+            <div class='modal-body'>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-2 col-form-label'>Loại SP</label>
+                    <div class='col-sm-10 d-flex align-items-center'>
+                        {{#if categories}}
+                            {{#each categories}}
+                                <div class='form-check'>
+                                    <input hidden class='form-check-input' value='{{this.id}}' type='radio' name='category' id='{{this.id}}' {{isCompare 0 @index 'checked' ''}} />
+                                    <label class='form-check-label btn {{isCompare 0 @index "btn-danger" "btn-dark"}}' for='{{this.id}}'>
+                                        {{this.value}}
+                                    </label>
+                                </div>
+                            {{/each}}
+                        {{/if}}
+                    </div>
                 </div>
-
-                <div class='md-form mb-4'>
-                    <i class='fas fa-envelope prefix grey-text'></i>
-                    <input type='email' id='form2' class='form-control validate' />
-                    <label data-error='wrong' data-success='right' for='form2'>Your email</label>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Tên SP</label>
+                    <div class='col-sm-9'>
+                        <select class='form-select w-75 text-center form-input' name='id_target' id='id-target' aria-label='Default select example'>
+                            <option value=''> Chọn sản phẩm</option>
+                        </select>
+                    </div>
                 </div>
-
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Số lượng</label>
+                    <div class='col-sm-9'>
+                        <input type='number' name='quanlity' class='form-control w-75 form-input' id='quanlity' aria-describedby='emailHelp' />
+                    </div>
+                </div>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Giá</label>
+                    <div class='col-sm-9'>
+                        <input type='number' name='price' class='form-control w-75 form-input' id='price' aria-describedby='emailHelp' />
+                    </div>
+                </div>
             </div>
-            <div class='modal-footer d-flex justify-content-center'>
-                <button class='btn btn-indigo'>Send <i class='fas fa-paper-plane-o ml-1'></i></button>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary btn-update-receipt' data-bs-dismiss='modal'>Cập nhật</button>
+                <button type='button' class='btn btn-primary btn-submit-receipt'>Thêm</button>
             </div>
         </div>
     </div>
 </div>
-
-<div class='text-center'>
-    <button class='btn btn-default btn-rounded mb-4 btn-modal' data-toggle='modal' data-target='#modalSubscriptionForm'>Launch Modal Subscription Form</button>
-</div>
-<script>
-    const btn = document.querySelector(".btn-modal"); btn.addEventListener('click', (e){ e.preventDefault(); });
-</script>
+<script src='/js/displayModalReceipt.js'></script>

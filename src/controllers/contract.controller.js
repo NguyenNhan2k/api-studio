@@ -1,18 +1,16 @@
-const { CategoriesService } = require('../service');
-const { removeAvatar } = require('../helpers');
-class CategoryController {
+const { ContractService } = require('../service');
+class ContractController {
     async render(req, res) {
         try {
             const search = await req.query.search;
             const { type, column, page } = await req.query;
             const toastMsg = await req.flash('toastMsg')[0];
             const order = type && column ? [column, type] : [];
-            const response = await CategoriesService.getAll({ page, order }, search);
+            const response = await ContractService.getAll({ page, order }, search);
             const [result] = await response.getResult();
-            console.log(result);
-            res.render('category/category', {
+            res.render('contract/contract', {
                 layout: 'main',
-                categories: result && result.categories,
+                contracts: result && result.contracts,
                 countDeleted: result.countDeleted,
                 countPage: result.countPage,
                 toastMsg,
@@ -27,20 +25,7 @@ class CategoryController {
             const search = await req.params.value;
             const { type, column, page } = await req.query;
             const order = type && column ? [column, type] : [];
-            const response = await CategoriesService.getAll({ page, order }, search);
-            const [result] = await response.getResult();
-            res.json(result);
-        } catch (error) {
-            console.log(error);
-            res.json(error);
-        }
-    }
-    async getAll(req, res) {
-        try {
-            const search = await req.params.value;
-            const { type, column, page } = await req.query;
-            const order = type && column ? [column, type] : [];
-            const response = await CategoriesService.getAll({ page, order }, search);
+            const response = await ContractService.getAll({ page, order }, search);
             const [result] = await response.getResult();
             res.json(result);
         } catch (error) {
@@ -54,12 +39,12 @@ class CategoryController {
             const toastMsg = await req.flash('toastMsg')[0];
             const order = (await type) && column ? [column, type] : [];
             const deleted = await false;
-            const response = await CategoriesService.getAll({ page, order, deleted });
+            const response = await ContractService.getAll({ page, order, deleted });
             const [result] = await response.getResult();
             console.log(result);
-            res.render('category/trash', {
+            res.render('wedding/trash', {
                 layout: 'main',
-                categories: result && result.categories,
+                weddings: result && result.weddings,
                 countPage: result.countPage,
                 toastMsg,
             });
@@ -71,13 +56,19 @@ class CategoryController {
     async renderDetail(req, res) {
         try {
             const toastMsg = await req.flash('toastMsg')[0];
-            const idCustomer = await req.params.id;
-            const response = await CategoriesService.getOne(idCustomer);
+            const slug = await req.params.slug;
+            const response = await ContractService.getOne(slug);
+            const resCategories = await CategoriesService.getAllBasic();
+            const resCategoriesWedding = await CategoriesContractService.getAllBasic();
+
             const [result] = await response.getResult();
-            console.log(result);
-            res.render('category/detail', {
+            const getCategories = await resCategories.getResult();
+            const getCategoriesWedding = await resCategoriesWedding.getResult();
+            res.render('wedding/detail', {
                 layout: 'main',
-                category: response && result.category,
+                wedding: response && result.wedding,
+                categories: getCategories[0].categories,
+                weddingcategories: getCategoriesWedding[0].weddingCategories,
                 toastMsg,
             });
         } catch (error) {
@@ -88,8 +79,14 @@ class CategoryController {
     async renderCreate(req, res) {
         try {
             const toastMsg = await req.flash('toastMsg')[0];
-            res.render('category/create', {
+            const resCategories = await CategoriesService.getAllBasic();
+            const resCategoriesWedding = await CategoriesContractService.getAllBasic();
+            const getCategories = await resCategories.getResult();
+            const getCategoriesWedding = await resCategoriesWedding.getResult();
+            res.render('wedding/create', {
                 layout: 'main',
+                categories: getCategories[0].categories,
+                weddingcategories: getCategoriesWedding[0].weddingCategories,
                 toastMsg,
             });
         } catch (error) {
@@ -98,31 +95,51 @@ class CategoryController {
         }
     }
     async create(req, res) {
+        const request = await req.payload;
+        const images = await req.files;
         try {
-            const request = await req.payload;
-            const result = await CategoriesService.create(request);
-            return result.active(req, res);
+            if (images) {
+                request.images = await images;
+            }
+            const response = await ContractService.create(request);
+            const result = await response.getResult()[0];
+            if (result.error === 1) {
+                await removeArrImgForController(images);
+            }
+            return response.active(req, res);
         } catch (error) {
             console.log(error);
+            if (images) {
+                removeArrImgForController(images);
+            }
             return res.redirect('back');
         }
     }
     async update(req, res) {
-        let avatar = await req.file;
+        const images = await req.files;
+        const request = await req.payload;
+        const id = await req.params.id;
         try {
-            const id = await req.params.id;
-            const request = await req.payload;
-            const respone = await CategoriesService.update(id, request);
+            if (images) {
+                request.images = await images;
+            }
+            const respone = await ContractService.update(id, request);
+            if (respone.error === 1) {
+                await removeArrImgForController(images);
+            }
             return respone.active(req, res);
         } catch (error) {
-            (await avatar) && removeAvatar(avatar.path);
+            console.log(error);
+            if (images) {
+                removeArrImgForController(images);
+            }
             return res.redirect('back');
         }
     }
     async destroy(req, res) {
         try {
-            const userId = await req.params.id;
-            const respone = await CategoriesService.destroy(userId);
+            const weddingId = await req.params.id;
+            const respone = await ContractService.destroy(weddingId);
             return respone.active(req, res);
         } catch (error) {
             console.log(error);
@@ -131,8 +148,18 @@ class CategoryController {
     }
     async restore(req, res) {
         try {
-            const userId = await req.params.id;
-            const respone = await CategoriesService.restore(userId);
+            const weddingId = await req.params.id;
+            const respone = await ContractService.restore(weddingId);
+            return respone.active(req, res);
+        } catch (error) {
+            console.log(error);
+            return res.redirect('back');
+        }
+    }
+    async force(req, res) {
+        try {
+            const weddingId = await req.params.id;
+            const respone = await ContractService.destroy(weddingId);
             return respone.active(req, res);
         } catch (error) {
             console.log(error);
@@ -142,14 +169,14 @@ class CategoryController {
     async handleAction(req, res) {
         const message = {};
         try {
-            const { action, categories } = await req.body;
+            const { action, weddings } = await req.body;
             switch (action) {
                 case 'delete':
-                    const resDeleted = await CategoriesService.destroyMutiple(categories);
+                    const resDeleted = await ContractService.destroyMutiple(weddings);
                     return resDeleted.active(req, res);
                     break;
                 case 'restore':
-                    const resRestore = await CategoriesService.restoreMutiple(categories);
+                    const resRestore = await ContractService.restoreMutiple(weddings);
                     return resRestore.active(req, res);
                     break;
                     defaults: message.mes = 'Action invalid !';
@@ -161,4 +188,4 @@ class CategoryController {
         }
     }
 }
-module.exports = new CategoryController();
+module.exports = new ContractController();

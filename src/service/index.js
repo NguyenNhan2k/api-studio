@@ -3,6 +3,7 @@ const RoleService = require('./role.service');
 const AuthService = require('./auth.service');
 const ComboService = require('./combo.service');
 const ReceiptService = require('./receipt.service');
+const ContractService = require('./contract.service');
 const CustomerService = require('./customer.service');
 const PositionService = require('./position.service');
 const WeddingService = require('./wedding.service');
@@ -16,9 +17,10 @@ module.exports = {
     AuthService,
     ComboService,
     ReceiptService,
+    WeddingService,
+    ContractService,
     PositionService,
     CustomerService,
-    WeddingService,
     AccessoryService,
     CategoriesService,
     CategoriesWeddingService,

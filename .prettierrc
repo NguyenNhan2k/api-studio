@@ -6,7 +6,7 @@
     "htmlWhitespaceSensitivity": "css",
     "insertPragma": false,
     "jsxSingleQuote": true,
-    "printWidth": 120,
+    "printWidth": 180,
     "proseWrap": "preserve",
     "quoteProps": "as-needed",
     "requirePragma": false,
@@ -15,5 +15,9 @@
     "tabWidth": 4,
     "trailingComma": "all",
     "useTabs": false,
-    "vueIndentScriptAndStyle": false
+    "vueIndentScriptAndStyle": false,
+    "[hbs]": {
+        "editor.formatOnSave": false,
+        "editor.formatOnPaste": false
+    }
 }

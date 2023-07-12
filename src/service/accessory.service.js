@@ -11,6 +11,7 @@ class AccessoryService {
             const params = await {
                 name: payload.name,
                 code: payload.code,
+                quanlity: payload.quanlity,
                 price: payload.price,
                 id_categories: payload.id_categories,
             };
@@ -21,20 +22,6 @@ class AccessoryService {
             if (!created) {
                 await this.response.setToastMsg('danger', 'Mã váy cưới đã tồn tại !', 1);
                 return this.response;
-            }
-
-            if (Array.isArray(payload.images) && payload.images.length > 0) {
-                const getNameImgs = await payload.images.map((img) => {
-                    return {
-                        name: img.filename,
-                        id_target: wedding.id,
-                    };
-                });
-                await db.Images.bulkCreate(getNameImgs, {
-                    returning: true,
-                    validate: true,
-                    individualHooks: true,
-                });
             }
             await this.response.setToastMsg('success', 'Tạo thông tin thành công!', 0);
             return this.response;
@@ -48,6 +35,7 @@ class AccessoryService {
         if (payload) {
             output = {
                 name: payload.name,
+                quanlity: payload.quanlity,
                 code: payload.code,
                 price: payload.price,
                 id_categories: payload.id_categories,

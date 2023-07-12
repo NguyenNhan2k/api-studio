@@ -12,7 +12,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             id_target: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             quanlity: {
                 type: Sequelize.INTEGER,

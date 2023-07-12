@@ -2,7 +2,7 @@
     <div class='container mt-5 pt-3'>
         <div class='row mb-2'>
             <div class='col-sm-12 col-md-8'>
-                <h4>PHỤ KIỆN</h4>
+                <h4>PHIẾU NHẬP</h4>
             </div>
             <div class='col-sm-12 col-md-4 pe-4'>
                 <a href='/receipts/trash' class='btn btn-primary ms-3 position-relative'>
@@ -52,6 +52,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Mã {{{sortable 'code' _sort _page}}}</th>
+                                            <th>Tổng</th>
                                             <th>CreatedAt{{{sortable 'createdAt' _sort _page}}}</th>
                                             <th>Chi tiết</th>
                                             <th>Xóa</th>
@@ -66,12 +67,12 @@
                                                             <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='receipts[]' value='{{this.id}}' />
                                                         </div>
                                                     </td>
-                                                    <td>{{this.code}}</td>
-                                                    <td class=''>{{this.code}}</td>
+                                                    <td class='w-25'>{{this.code}}</td>
+                                                    <td class='w-25'>{{convertToVND this.total}}</td>
                                                     <td>{{convertToDate this.createdAt}}</td>
                                                     <td>
                                                         <a href='/receipts/{{this.id}}' class='btn btn-primary px-1 py-1'>
-                                                            <i class='fa-solid fa-pen'></i>
+                                                            <i class='fa-solid fa-eye'></i>
                                                         </a>
                                                     </td>
                                                     <td>
@@ -113,6 +114,6 @@
 <script src='/js/search.js'></script>
 <script src='/js/displayModalComment.js'></script>
 <script>
-    closeModal('.close','.btn-secondary','#delete-receipts', 'Xóa thông tin khách hàng','Bạn có chắc chắn muốn xóatrường này?');
+    closeModal('.close','.btn-secondary','#delete-receipts', 'Xóa thông tin phiếu nhập','Bạn có chắc chắn muốn xóa trường này?');
     handelCheckedBox('input[name="receipts[]"]:checked'); displaySearch('.btn-search', '#search', 'receipts', '#myList', searchWedding);
 </script>

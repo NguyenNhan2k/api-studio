@@ -5,6 +5,7 @@ const ComboController = require('./combo.controller');
 const AocuoiController = require('./aocuoi.controller');
 const WeddingController = require('./wedding.controller');
 const ReceiptController = require('./receipt.controller');
+const ContractController = require('./contract.controller');
 const CalendarController = require('./calendar.controller');
 const CustomerController = require('./customer.controller');
 const PositionController = require('./position.controller');
@@ -19,9 +20,10 @@ module.exports = {
     ComboController,
     AocuoiController,
     ReceiptController,
+    WeddingController,
     CalendarController,
     CustomerController,
-    WeddingController,
+    ContractController,
     PositionController,
     CategoryController,
     AccessoryController,

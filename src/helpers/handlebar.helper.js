@@ -37,6 +37,17 @@ const handlebar = {
         });
         return new Handlebars.SafeString(options);
     },
+    convertToVND: (payload) => {
+        const config = { style: 'currency', currency: 'VND' };
+        const formated = new Intl.NumberFormat('vi-VN', config).format(payload);
+        return formated;
+    },
+    isCompare: (value, isValue, trueOutput, falseOuput) => {
+        return value == isValue ? trueOutput : falseOuput;
+    },
+    increment: (index, value) => {
+        return index + value;
+    },
     sliderImages: (images) => {
         if (!Array.isArray(images) && images.length < 0) {
             return '';
@@ -48,6 +59,10 @@ const handlebar = {
             return output;
         });
         return new Handlebars.SafeString(options);
+    },
+    converthandle: (payload) => {
+        console.log(payload);
+        return new Handlebars.SafeString(payload);
     },
     paging: (page, countPage) => {
         const indexPage = [];

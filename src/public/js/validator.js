@@ -101,7 +101,6 @@ function validator(formSelector, formGround = '.form-group') {
         }
     }
     if (formElement) {
-        console.log(formElement);
         formElement.onsubmit = (event) => {
             event.preventDefault();
             const inputs = formElement.querySelectorAll('[name][rules]');

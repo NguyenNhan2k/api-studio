@@ -8,6 +8,7 @@ const objShema = {
     value: joi.string().required().optional(),
     detail: joi.string().required().optional(),
     price: joi.number().required().optional(),
+    quanlity: joi.number().required().optional(),
     wage: joi.number().required().optional(),
     id_categories: joi.string().required().optional(),
     id_categoriesWedding: joi.string().required().optional(),

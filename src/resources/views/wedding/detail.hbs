@@ -55,6 +55,12 @@
                             {{displaySelected categories wedding.category.value}}
                         </select>
                     </div>
+                    <div class='form-group mb-3'>
+                        <label for='quanlity' class='form-label'>Số lượng</label>
+                        <span>*</span>
+                        <input type='number' value="{{wedding.quanlity}}" rules='require' name="quanlity" class='form-control' id='quanlity' aria-describedby='emailHelp' />
+                        <span class='form-text text-danger'></span>
+                    </div>
                     <div class='form-group mb-3 d-flex'>
                         <select class='form-select' name='id_categoriesWedding' aria-label='Default select example'>
                             {{displaySelected weddingcategories wedding.categoryWedding.value}}

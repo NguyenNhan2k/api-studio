@@ -1,46 +1,70 @@
 <main>
-    <div class='container my-5 pt-3'>
+    <div class='container my-5 pt-3 '>
         <div class='row mb-2'>
             <div class='col-sm-12 col-md-3'>
-                <a href='/accessories' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                <a href='/receipts' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
                     về</a>
             </div>
         </div>
-        <div class='row justify-content-around'>
-            <form class='p-5 col-sm-8 border' id="form-create" action="/accessories/update/{{accessory.id}}?_method=PATCH" method="post" >
+        <div class='row justify-content-around w-100'>
+            <form class='p-5 col-sm-8 border' id="form-create" action="/receipts/update/{{receipt.id}}?_method=PATCH" method="post" >
                 <div class='mb-3'>
-                    <h3 class="text-uppercase text-center">Chi tiết phụ kiện</h3>
+                    <h3 class="text-uppercase text-center">Chi tiết phiếu nhập</h3>
                 </div>
-                <div class="row mb-3 ">
-                    <div class="col-sm-12 col-md-6 form-group">
-                        <label for='firstName' class='form-label'>Mã phụ kiện</label>
+                <div class="row mb-3 pb-3 border-bottom">
+                    <div class="form-group">
+                        <label for='firstName' class='form-label'>Mã phiếu</label>
                         <span>*</span>
-                        <input type='text' rules='require' value="{{accessory.code}}" name="code" class='form-control' id='code' aria-describedby='emailHelp' />
+                        <input type='text' rules='require' value="{{receipt.code}}" name="code" class='form-control' id='code' aria-describedby='emailHelp' />
                         <span class="form-text text-danger" ></span>
                     </div>
-                    <div class='col-sm-12 col-md-6 form-group '>
-                        <label for='email' class='form-label'>Giá</label>
+                    <div class="form-group mt-3">
+                        <label for='createdAt' class='form-label'>Ngày lập</label>
                         <span>*</span>
-                        <input type='number' rules='require' value="{{accessory.price}}" name="price" class='form-control' id='email' aria-describedby='emailHelp' />
-                        <span class='form-text text-danger'></span>
+                        <input type='text' value="{{convertToDate receipt.createdAt}}" rules='require' value="{{receipt.code}}" class='form-control' id='createdAt' aria-describedby='emailHelp' readonly/>
+                        <span class="form-text text-danger" ></span>
                     </div>
-                </div>
-                <div class="form-group mb-3">
-                        <label for='name' class='form-label'>Name</label>
-                        <span>*</span>
-                        <input type='text' name="name" rules='require' value="{{accessory.name}}" class='form-control' id='name' aria-describedby='emailHelp' />
-                        <span class='form-text text-danger'></span>
-                </div>
-                <div class='form-group mb-3 d-flex'>
-                    <select class='form-select' name="id_categories" aria-label='Default select example'>
-                        {{displaySelected categories accessory.category.value}}
-                    </select>
-                </div>
-                <button type='submit' class='btn btn-primary col-sm-12'>Submit</button>
+                </div> 
+                <button type='button' class='btn btn-success btn-active-receipt mb-2'>
+                    <i class='fa-solid fa-plus pe-1'></i>
+                    Thêm mới
+                </button>    
+                <div class='card '>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Chi tiết phiếu nhập
+                        </div>
+                        <div class='card-body'>                          
+                            <div class='table-responsive mt-2'>
+                                <table id='example'  class='table table-striped data-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên sản phẩm </th>
+                                            <th>Số lượng</th>
+                                            <th>Đơn giá</th>
+                                            <th>Tổng </th>
+                                            <th>Cập nhật </th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody-receipt">                                              
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" py-3 pe-2">
+                        <p class="h5 float-end">Tổng: {{convertToVND receipt.total}}</p>
+                    </div>
+                <button type='submit' class='btn btn-primary col-sm-12 mt-2'>Submit</button>
             </form>
         </div>
     </div>
 </main>
+ {{> modal-create-receipt}}
+
 <script src="/js/validator.js"></script>
 <script src="/js/main.js"></script>
 <script >

@@ -16,6 +16,7 @@ class WeddingService {
                 name: payload.name,
                 code: payload.code,
                 price: payload.price,
+                quanlity: payload.quanlity,
                 detail: payload.detail,
                 id_categories: payload.id_categories,
                 id_categoriesWedding: payload.id_categoriesWedding,
@@ -57,6 +58,7 @@ class WeddingService {
                 code: payload.code,
                 price: payload.price,
                 detail: payload.detail,
+                quanlity: payload.quanlity,
                 id_categories: payload.id_categories,
                 id_categoriesWedding: payload.id_categoriesWedding,
             };

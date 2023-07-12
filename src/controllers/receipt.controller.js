@@ -1,4 +1,4 @@
-const { ReceiptService } = require('../service');
+const { ReceiptService, CategoriesService } = require('../service');
 class ReceiptController {
     async render(req, res) {
         try {
@@ -41,10 +41,9 @@ class ReceiptController {
             const deleted = await false;
             const response = await ReceiptService.getAll({ page, order, deleted });
             const [result] = await response.getResult();
-            console.log(result);
-            res.render('accessory/trash', {
+            res.render('receipt/trash', {
                 layout: 'main',
-                accessories: result && result.accessories,
+                receipts: result && result.receipts,
                 countPage: result.countPage,
                 toastMsg,
             });
@@ -58,13 +57,27 @@ class ReceiptController {
             const toastMsg = await req.flash('toastMsg')[0];
             const id = await req.params.id;
             const response = await ReceiptService.getOne(id);
-            const resCategories = await CategoriesService.getAllBasic();
+            const [page, order] = await [1, []];
+            const resCategories = await CategoriesService.getAll({ page, order }, '');
+            const categories = await resCategories.getResult();
             const [result] = await response.getResult();
-            const getCategories = await resCategories.getResult();
-            res.render('accessory/detail', {
+            const detailReceipts = await result.receipt.detailReceipts;
+            if (detailReceipts) {
+                const options = await {
+                    expires: new Date(Date.now() + 8 * 3600000),
+                };
+                res.cookie(
+                    'detailReceipts',
+                    {
+                        detailReceipts: detailReceipts,
+                    },
+                    options,
+                );
+            }
+            res.render('receipt/detail', {
                 layout: 'main',
-                accessory: response && result.accessory,
-                categories: getCategories[0].categories,
+                receipt: response && result.receipt,
+                categories: categories[0].categories,
                 toastMsg,
             });
         } catch (error) {
@@ -74,10 +87,15 @@ class ReceiptController {
     }
     async renderCreate(req, res) {
         try {
+            const page = await 1;
+            const order = await [];
+            const resCategories = await CategoriesService.getAll({ page, order }, '');
+            const categories = await resCategories.getResult();
             const toastMsg = await req.flash('toastMsg')[0];
+            res.clearCookie('detailReceipts');
             res.render('receipt/create', {
                 layout: 'main',
-
+                categories: categories[0].categories,
                 toastMsg,
             });
         } catch (error) {
@@ -86,7 +104,7 @@ class ReceiptController {
         }
     }
     async create(req, res) {
-        const request = await req.payload;
+        const request = await req.body;
         // {
         //     code: maP01,
         //     receiptDetail: [
@@ -108,7 +126,7 @@ class ReceiptController {
         }
     }
     async update(req, res) {
-        const request = await req.payload;
+        const request = await req.body;
         const id = await req.params.id;
         try {
             const respone = await ReceiptService.update(id, request);
@@ -121,8 +139,18 @@ class ReceiptController {
     }
     async destroy(req, res) {
         try {
-            const weddingId = await req.params.id;
-            const respone = await ReceiptService.destroy(weddingId);
+            const receipId = await req.params.id;
+            const respone = await ReceiptService.destroy(receipId);
+            return respone.active(req, res);
+        } catch (error) {
+            console.log(error);
+            return res.redirect('back');
+        }
+    }
+    async force(req, res) {
+        try {
+            const receipId = await req.params.id;
+            const respone = await ReceiptService.force(receipId);
             return respone.active(req, res);
         } catch (error) {
             console.log(error);
@@ -131,8 +159,8 @@ class ReceiptController {
     }
     async restore(req, res) {
         try {
-            const weddingId = await req.params.id;
-            const respone = await ReceiptService.restore(weddingId);
+            const receipId = await req.params.id;
+            const respone = await ReceiptService.restore(receipId);
             return respone.active(req, res);
         } catch (error) {
             console.log(error);
@@ -142,15 +170,19 @@ class ReceiptController {
     async handleAction(req, res) {
         const message = {};
         try {
-            const { action, accessories } = await req.body;
+            const { action, receipts } = await req.body;
             switch (action) {
                 case 'delete':
-                    const resDeleted = await ReceiptService.destroyMutiple(accessories);
+                    const resDeleted = await ReceiptService.destroyMutiple(receipts);
                     return resDeleted.active(req, res);
                     break;
                 case 'restore':
-                    const resRestore = await ReceiptService.restoreMutiple(accessories);
+                    const resRestore = await ReceiptService.restoreMutiple(receipts);
                     return resRestore.active(req, res);
+                    break;
+                case 'force':
+                    const resFoced = await ReceiptService.forceMutiple(receipts);
+                    return resFoced.active(req, res);
                     break;
                     defaults: message.mes = 'Action invalid !';
             }

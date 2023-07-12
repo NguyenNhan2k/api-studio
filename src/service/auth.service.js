@@ -53,7 +53,6 @@ class AuthService {
                 remember: payload.remember && payload.remember == 'on' ? true : false,
             };
             const userParams = await new Auth(params.email, params.password, params.remember);
-
             this.user = await userParams.findUser({ email: userParams.email }, true);
             const isUserAlready = await this.user;
             if (!isUserAlready) {
@@ -80,16 +79,8 @@ class AuthService {
                 expiresIn: '7d',
             };
 
-            const accessToken = await new JsonWebToken(
-                dataOfToken,
-                process.env.SECRECT_KEY_ACCESSTOKEN,
-                optionOfAccessToken,
-            ).signToken();
-            const refreshToken = await new JsonWebToken(
-                dataOfToken,
-                process.env.SECRECT_KEY_REFRESHTOKEN,
-                optionOfRefreshToken,
-            ).signToken();
+            const accessToken = await new JsonWebToken(dataOfToken, process.env.SECRECT_KEY_ACCESSTOKEN, optionOfAccessToken).signToken();
+            const refreshToken = await new JsonWebToken(dataOfToken, process.env.SECRECT_KEY_REFRESHTOKEN, optionOfRefreshToken).signToken();
 
             const updateUser = await userParams.update(
                 {
@@ -97,7 +88,6 @@ class AuthService {
                 },
                 { email: userParams.email },
             );
-
             const output = await {
                 accessToken,
                 refreshToken,

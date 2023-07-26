@@ -1,0 +1,68 @@
+<!-- Modal -->
+<div class='modal fade show modal-job' id='modal-job' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h1 class='modal-title fs-5' id='exampleModalLabel'>Chi tiết Công việc</h1>
+                <button type='button' class='btn-close btn-close-job' data-bs-dismiss='modal' aria-label='Close'></button>
+
+            </div>
+            <div class='modal-body'>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-2 col-form-label'>Loại SP</label>
+                    <div class='col-sm-10 d-flex align-items-center flex-wrap'>
+                        {{#if positions}}
+                            {{#each positions}}
+                                <div class='form-check'>
+                                    <input hidden class='form-check-input' value='{{this.id}}' type='radio' name='position' id='{{this.id}}' {{isCompare 0 @index 'checked' ''}} />
+                                    <label class='form-check-label btn label-job {{isCompare 0 @index "btn-danger" "btn-dark"}}' data-id={{this.id}} for='{{this.id}}'>
+                                        {{this.value}}
+                                    </label>
+                                </div>
+                            {{/each}}
+                        {{/if}}
+                    </div>
+                </div>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Nhân viên</label>
+                    <div class='col-sm-9'>
+                        <select class='form-select w-75 text-center select-customer customer-job' name='customer' aria-label='Default select example'>
+                        </select>
+                    </div>
+                </div>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Ngày Giao</label>
+                    <div class='col-sm-9'>
+                        <input type='datetime-local' name='assignDate' class='col-sm-9 form-control w-75 text-center assignDate-job' />
+                    </div>
+                </div>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Hoàn thành</label>
+                    <div class='col-sm-9'>
+                        <input type='datetime-local' name='expireDate' class='col-sm-9 form-control w-75 text-center expireDate-job' />
+                    </div>
+                </div>
+                <div class='mb-3 row'>
+                    <label for='staticEmail' class='col-sm-3 col-form-label'>Trạng thái</label>
+                    <div class='col-sm-9'>
+                        <select class='form-select w-75 text-center status-job' name='status' aria-label='Default select example'>
+                            <option value='Đang chờ' selected>Đang chờ</option>
+                            <option value='Đang thực hiện'>Đang thực hiện</option>
+                            <option value='Đã hoàn thành'>Đã hoàn thành</option>
+                            <option value='Quán hạn'>Quán hạn</option>
+                        </select>
+                    </div>
+                </div>
+                <div class='mb-3'>
+                    <label for='exampleFormControlTextarea1' class='form-label'>Ghi chú</label>
+                    <textarea class='form-control detail-job' name='detail' id='exampleFormControlTextarea1' rows='3'></textarea>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary btn-update-job' data-bs-dismiss='modal'>Cập nhật</button>
+                <button type='button' class='btn btn-primary btn-submit-job' id='btn-submit-job'>Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='/js/displayModalJob.js'></script>

@@ -67,7 +67,7 @@ const valueSelect = async () => {
     await displaySelect(getValue);
 };
 const displaySelect = (category) => {
-    const select = document.querySelector('.form-select');
+    const select = document.querySelector('#id-target');
     let targets = '';
     if (category[0].value == 'Phụ kiện') {
         targets = category[0].accessories;
@@ -96,7 +96,6 @@ const initReceipt = (nameCoookie) => {
     return [];
 };
 var receiptDetail = initReceipt('detailReceipts');
-
 const uiDisplayTable = () => {
     if (receiptDetail.length == 0) {
         tbodyEle.innerHTML = `<td colspan='12' class='text-center'>
@@ -109,7 +108,7 @@ const uiDisplayTable = () => {
             const price = convertToVND(reciept.price);
             trTable += `<tr>
             <td>
-               ${index + 1}
+            ${index + 1}
             </td>
             <td>${reciept.name}
                 <input type="text" value="${reciept.id_target}" name="id_target[]" hidden>
@@ -140,7 +139,6 @@ const uiDisplayTable = () => {
         tbodyEle.innerHTML = trTable;
     }
 };
-
 const submitModal = document.querySelector('.btn-submit-receipt');
 const idtarget = document.querySelector('#id-target');
 const quanlityEle = document.querySelector('#quanlity');
@@ -168,15 +166,7 @@ const handleSubmitModal = () => {
             uiDisplayTable();
         });
     }
-    // {
-    //     id_target: '14s',
-    //     quanlity: '1',
-    //     price: '100',
-    //     total: '200',
-    //     nameValue : 'ao',
-    // }
 };
-
 closeActice.forEach((item) => {
     item.addEventListener('click', () => {
         modal.style.display = 'none';
@@ -206,13 +196,11 @@ const updateItem = (index) => {
             price: price,
             total: parseInt(quanlity) * parseInt(price),
         };
-        console.log(index);
         receiptDetail[index] = output;
         uiDisplayTable();
         modal.style.display = 'none';
     });
 };
-
 uiDisplayTable();
 handleSubmitModal();
 valueSelect();

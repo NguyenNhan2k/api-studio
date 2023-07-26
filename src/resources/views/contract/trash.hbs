@@ -1,19 +1,12 @@
 <main>
     <div class='container mt-5 pt-3'>
         <div class='row mb-2'>
-            <div class='col-sm-12 col-md-8'>
-                <h4>DANH MỤC</h4>
+            <div class='col-sm-12 col-md-3'>
+                <a href='/weddings' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
             </div>
-            <div class='col-sm-12 col-md-4 pe-4'>
-                <a href='/categories/trash' class='btn btn-primary ms-3 position-relative'>
-                    <i class='fa-solid fa-trash me-1'></i>
-                    Thùng rác({{{countDeleted}}})
-                </a>
-                <a href='/categories/create' class='btn btn-success float-end me-3'><i class='fa-solid fa-plus me-2'></i>Add new</a>
-            </div>
-
         </div>
-        <form action='/categories/handleAction' method='post' class='row'>
+        <form action="/weddings/handleAction" method="post" class='row'>
             <div class='row'>
                 <div class='col-md-12 mb-3'>
                     <div class='card'>
@@ -29,21 +22,19 @@
                                         Check All
                                     </label>
                                 </div>
-                                <select class='form-select w-25 me-2 text-center' name='action' aria-label='Default select example'>
+                                <select class='form-select w-25 me-2 text-center' name="action" aria-label='Default select example'>
                                     <option selected>--- Hành động ---</option>
-                                    <option value='delete'>Xóa</option>
+                                    <option value='restore'>Khôi phục</option>
+                                    <option value='force'>Xóa vĩnh viễn</option>
                                 </select>
-                                <button class='btn btn-primary submit' type='submit' disabled>Thực hiện</button>
-                                <div class='d-flex flex-row-reverse w-50 ms-auto my-3 my-lg-0 list-group position-relative'>
-                                    <div class='w-75 input-group float-end'>
-                                        <input class='form-control' type='search' placeholder='Search' id='search' aria-label='Search' />
-                                        <button class='btn btn-primary btn-search'>
+                                <button class='btn btn-primary submit' type='submit'>Thực hiện</button>
+                                <div class='d-flex ms-auto my-3 my-lg-0'>
+                                    <div class='input-group'>
+                                        <input class='form-control' type='search' placeholder='Search' aria-label='Search' />
+                                        <button class='btn btn-primary' type='submit'>
                                             <i class='bi bi-search'></i>
                                         </button>
                                     </div>
-                                    <ul style='z-index: 100;' class='list-group position-absolute top-100 w-75 h-100 text-center' id='myList'>
-                                    </ul>
-
                                 </div>
                             </div>
                             <div class='table-responsive mt-2'>
@@ -51,33 +42,39 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name {{{sortable 'value' _sort _page}}}</th>
+                                            <th>Mã {{{sortable 'name' _sort _page}}}</th>
+                                            <th>Name {{{sortable 'email' _sort _page}}}</th>
+                                            <th>Dòng váy {{{sortable 'id_categoriesWedding' _sort _page}}}</th>
+                                            <th>Loại {{{sortable 'id_categories' _sort _page}}}</th>
                                             <th>CreatedAt{{{sortable 'createdAt' _sort _page}}}</th>
-                                            <th>Chi tiết</th>
+                                            <th>Khôi phục</th>
                                             <th>Xóa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#if categories}}
-                                            {{#each categories}}
+                                        {{#if weddings}}
+                                            {{#each weddings}}
                                                 <tr>
                                                     <td>
                                                         <div class='form-check'>
-                                                            <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='categories[]' value='{{this.id}}' />
+                                                            <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='weddings[]' value='{{this.id}}' />
                                                         </div>
                                                     </td>
-                                                    <td>{{this.value}}</td>
-                                                    <td>{{convertToDate this.createdAt}}</td>
-                                                    <td>
-                                                        <a href='/categories/{{this.id}}' class='btn btn-primary px-1 py-1'>
-                                                            <i class='fa-solid fa-pen'></i>
-                                                        </a>
+                                                    <td>{{this.code}}</td>
+                                                    <td class='w-25'>{{this.name}}</td>
+                                                    <td>{{this.category.value}}</td>
+                                                    <td>{{this.categoryWedding.value}}</td>
+                                                    <td>{{convertToDate this.destroyTime}}</td>
+                                                    <td >
+                                                        <button class='btn btn-primary px-1 py-1 ms-3' id='restore-weddings' data-table='weddings' data-actions='restore' data-id='{{this.id}}'>
+                                                        <i class="bi bi-arrow-clockwise"></i>
+                                                        </button>
                                                     </td>
                                                     <td>
                                                         <button
                                                             class='btn btn-danger px-1 py-1'
-                                                            id='delete-categories'
-                                                            data-table='categories'
+                                                            id='delete-weddings'
+                                                            data-table='weddings'
                                                             data-actions='destroy'
                                                             data-id='{{this.id}}'
                                                         >
@@ -93,7 +90,7 @@
                                         {{/if}}
                                     </tbody>
                                 </table>
-                                {{#if categories}}
+                                {{#if weddings}}
                                     <nav aria-label='...' class=''>
                                         {{{paging _page countPage}}}
                                     </nav>
@@ -105,14 +102,12 @@
             </div>
         </form>
     </div>
-    <dir></dir>
 </main>
 <form id='deleteOne' method='post'></form>
 <script src='/js/main.js'></script>
-<script src='/js/search.js'></script>
 <script src='/js/displayModalComment.js'></script>
 <script>
-    closeModal('.close','.btn-secondary','#delete-categories', 'Xóa thông tin chức vụ','Bạn có chắc chắn muốn xóa trường này?');
-    handelCheckedBox('input[name="categories[]"]:checked'); displaySearch('.btn-search', '#search', 'categories', '#myList', searchCategories);
-
+    closeModal('.close','.btn-secondary','#delete-weddings', 'Xóa thông tin đồ cưới','Xóa vĩnh viễn đồ cưới, Bạn đã chắc chắn?');
+    closeModal('.close','.btn-secondary','#restore-weddings', 'Khôi phục đồ cưới','Khôi phục đồ cưới, Bạn đã chắc chắn?');
+    handelCheckedBox('input[name="weddings[]"]:checked');
 </script>

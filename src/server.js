@@ -1,4 +1,5 @@
 const cors = require('cors');
+const passport = require('passport');
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -14,6 +15,7 @@ const handlebars = require('express-handlebars');
 const Route = require('./routes/index');
 const { connectDB } = require('./config/connect_database');
 const { handlebar } = require('./helpers');
+const { GoogleStrategy } = require('./middlewares');
 class Server {
     constructor() {
         this.useMiddelwares();
@@ -39,6 +41,7 @@ class Server {
     }
     useMiddelwares() {
         try {
+            passport.use(GoogleStrategy);
             app.use(flash());
             app.use(
                 session({
@@ -47,6 +50,7 @@ class Server {
                 }),
             );
             // override with POST having ?_method=DELETE
+
             app.use(methodOverride('_method'));
             app.use(bodyParser.urlencoded({ extended: true }));
             app.use(bodyParser.json());

@@ -1,0 +1,99 @@
+<main>
+    <div class='container my-5 pt-3'>
+        <div class='row mb-2 '>
+            <div class='col-sm-12 col-md-3 ms-1'>
+                <a href='/weddings' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
+            </div>
+        </div>
+        <div class='row m-1'>
+            <div id='carouselExampleIndicators' class='carousel slide h-25 col-sm-12 col-md-5' data-bs-ride='carousel'>
+                <div class='carousel-indicators'>
+                    <button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' class='active' aria-current='true' aria-label='Slide 1'></button>
+                    <button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='1' aria-label='Slide 2'></button>
+                    <button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='2' aria-label='Slide 3'></button>
+                </div>
+                <div class='carousel-inner'>
+                    {{{sliderImages wedding.images}}}
+                </div>
+                <button class='carousel-control-prev' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
+                    <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                    <span class='visually-hidden'>Previous</span>
+                </button>
+                <button class='carousel-control-next' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>
+                    <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                    <span class='visually-hidden'>Next</span>
+                </button>
+            </div>
+            <div class='col-sm-12 col-md-7'>
+                <form class='p-5 w-100 border' id='form-create' action='/weddings/update/{{wedding.id}}?_method=PATCH' method='post' enctype='multipart/form-data'>
+                    <div class='mb-3'>
+                        <h3 class='text-uppercase text-center'>Thông tin chi tiết</h3>
+                    </div>
+                    <div class='row mb-3'>
+                        <div class='form-group mb-3'>
+                            <label for='code' class='form-label'>Mã đồ cưới</label>
+                            <span>*</span>
+                            <input type='text' rules='require' value='{{wedding.code}}' name='code' class='form-control' id='code' aria-describedby='emailHelp' />
+                            <span class='form-text text-danger'></span>
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='name' class='form-label'>Name</label>
+                            <span>*</span>
+                            <input type='text' name='name' value='{{wedding.name}}' rules='require' class='form-control' id='name' aria-describedby='emailHelp' />
+                            <span class='form-text text-danger'></span>
+                        </div>
+                    </div>
+                    <div class='form-group mb-3'>
+                        <label for='price' class='form-label'>Giá thuê</label>
+                        <span>*</span>
+                        <input type='number' rules='require' value='{{wedding.price}}' name='price' class='form-control' id='price' aria-describedby='emailHelp' />
+                        <span class='form-text text-danger'></span>
+                    </div>
+                    <div class='form-group mb-3 d-flex'>
+                        <select class='form-select' name='id_categories' aria-label='Default select example'>
+                            {{displaySelected categories wedding.category.value}}
+                        </select>
+                    </div>
+                    <div class='form-group mb-3'>
+                        <label for='quanlity' class='form-label'>Số lượng</label>
+                        <span>*</span>
+                        <input type='number' value="{{wedding.quanlity}}" rules='require' name="quanlity" class='form-control' id='quanlity' aria-describedby='emailHelp' />
+                        <span class='form-text text-danger'></span>
+                    </div>
+                    <div class='form-group mb-3 d-flex'>
+                        <select class='form-select' name='id_categoriesWedding' aria-label='Default select example'>
+                            {{displaySelected weddingcategories wedding.categoryWedding.value}}
+                        </select>
+                    </div>
+                    <div class='mb-3'>
+                        <label for='exampleFormControlTextarea1' class='form-label'>Chi tiết</label>
+                        <textarea class='form-control' name='detail' id='exampleFormControlTextarea1' rows='4'>{{wedding.detail}}</textarea>
+                    </div>
+                    <div class='mb-3 card-imgs'>
+                        <div class='top'>
+                            <p>Drag & drop image uploading</p>
+                        </div>
+                        <div class='drag-area'>
+                            <span class='visible'>
+                                Drag & drop image here or
+                                <span class='select' role='button'>Browse</span>
+                            </span>
+                            <span class='on-drop'>Drop images here</span>
+                            <input name='images' type='file' class='images' multiple />
+                        </div>
+                        <!-- IMAGE PREVIEW CONTAINER -->
+                        <div class='container-imgs'></div>
+                    </div>
+                    <button type='submit' class='btn btn-primary col-sm-12'>Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+<script src='/js/validator.js'></script>
+<script src='/js/main.js'></script>
+<script>
+    validator('#form-create', '.form-group'); handleMutipleImage();
+</script>

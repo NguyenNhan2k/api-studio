@@ -42,7 +42,7 @@ class Auth {
 }
 class AuthService {
     constructor() {
-        this.response = new ElertMessage('danger', 'Hàng động thất bại', 1);
+        this.response = new ElertMessage('danger', 'Vui lòng đăng nhập để tiếp tục!', 1);
         this.user = null;
     }
     async login(payload) {
@@ -81,7 +81,6 @@ class AuthService {
 
             const accessToken = await new JsonWebToken(dataOfToken, process.env.SECRECT_KEY_ACCESSTOKEN, optionOfAccessToken).signToken();
             const refreshToken = await new JsonWebToken(dataOfToken, process.env.SECRECT_KEY_REFRESHTOKEN, optionOfRefreshToken).signToken();
-
             const updateUser = await userParams.update(
                 {
                     refresh_token: refreshToken,
@@ -108,6 +107,24 @@ class AuthService {
         } catch (error) {
             console.log(error);
             return this.response;
+        }
+    }
+    async loginGoogle(dataOfToken) {
+        try {
+            if (!user) {
+                return this.response;
+            }
+            const accessToken = await new JsonWebToken(dataOfToken, process.env.SECRECT_KEY_ACCESSTOKEN, optionOfAccessToken).signToken();
+            const output = await {
+                accessToken,
+                user: dataOfToken,
+            };
+            this.response.setToastMsg('success', 'Đăng nhập thành công!', 0);
+            this.response.pushResult(output);
+            return this.response;
+        } catch (error) {
+            console.log(error);
+            return message;
         }
     }
 }

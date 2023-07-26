@@ -33,6 +33,13 @@ class PositionService {
                 attributes: {
                     exclude: ['updatedAt'],
                 },
+                include: {
+                    model: db.Users,
+                    as: 'users',
+                    attributes: {
+                        exclude: ['updatedAt', 'password', 'email', 'createdAt'],
+                    },
+                },
             };
             if (searchQuery) {
                 queries.where = await { [op.or]: filters };
@@ -111,7 +118,7 @@ class PositionService {
     async getAll() {
         try {
             const positions = await db.Positions.findAll({
-                attributes: ['value', 'id'],
+                attributes: ['value', 'id', 'code'],
                 include: {
                     model: db.Users,
                     as: 'users',

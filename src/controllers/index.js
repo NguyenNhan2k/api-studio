@@ -2,6 +2,7 @@ const homeController = require('./home.controller');
 const AuthController = require('./auth.controller');
 const UserController = require('./user.controller');
 const ComboController = require('./combo.controller');
+const StatusController = require('./status.controller');
 const AocuoiController = require('./aocuoi.controller');
 const WeddingController = require('./wedding.controller');
 const ReceiptController = require('./receipt.controller');
@@ -18,6 +19,7 @@ module.exports = {
     AuthController,
     UserController,
     ComboController,
+    StatusController,
     AocuoiController,
     ReceiptController,
     WeddingController,

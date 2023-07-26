@@ -1,0 +1,157 @@
+<main>
+    <div class='container my-5 pt-3'>
+        <div class='row mb-2'>
+            <div class='col-sm-12 col-md-3'>
+                <a href='/contracts' class='btn btn-danger float-start '><i class="fa-solid fa-arrow-left me-1"></i></i>Trở
+                    về</a>
+            </div>
+        </div>
+        <div class='row justify-content-around '>
+            <form class='p-5 col-sm-8 border' id="form-create" action="/contracts/create" method="post" >
+                <div class='mb-3'>
+                    <h3 class="text-uppercase text-center">Tạo Hợp Đồng</h3>
+                </div>
+                <div class="row mb-3 pb-3 border-bottom">
+                    <div class="form-group">
+                        <label for='firstName' class='form-label'>Mã phiếu</label>
+                        <span>*</span>
+                        <input type='text' rules='require' name="code" class='form-control' id='code' aria-describedby='emailHelp' />
+                        <span class="form-text text-danger" ></span>
+                    </div>
+                    <div class="row mt-3">    
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <label for="date" class='form-label'>Hạn giao HD</label>   
+                            <span>*</span>                        
+                            <div class="input-group date" id="datepicker">
+                                <input type="text" class="form-control" name="expireDate" id="date"/>
+                                <span class="input-group-append">
+                                    <span class="input-group-text bg-light d-block">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>                   
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <label for="date" class='form-label'>Trạng thái HD</label>  
+                            <span>*</span>
+                            <select class='form-select' name="status" >
+                                <option selected>Tình trạng HD</option>
+                                    {{#if status}}
+                                        {{#each status}}
+                                            <option value='{{this.id}}'>{{this.value}}</option>
+                                        {{/each}}
+                                    {{/if}}
+                            </select>
+                        </div>                            
+                    </div>      
+                </div> 
+                <button type='button' class='btn btn-success btn-active-receipt mb-2'>
+                    <i class='fa-solid fa-plus pe-1'></i>
+                    Thêm
+                </button>    
+                <div class='card '>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Chi tiết hóa đơn
+                        </div>
+                        <div class='card-body'>                          
+                            <div class='table-responsive mt-2'>
+                                <table id='example' class='table table-striped data-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên sản phẩm </th>
+                                            <th>Số lượng</th>
+                                            <th>Đơn giá</th>
+                                            <th>Tổng </th>
+                                            <th>Cập nhật </th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody-receipt">                                              
+                                        
+                                            {{!-- <td colspan='12' class='text-center'>
+                                                Danh sách trống !
+                                            </td> --}}                                     
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <button type='button' class='btn btn-success btn-active-checkout mb-2 mt-3'>
+                    <i class='fa-solid fa-plus pe-1'></i>
+                    Thêm
+                </button>    
+                <div class='card'>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Chi tiết thanh toán
+                        </div>
+                        <div class='card-body'>                          
+                            <div class='table-responsive mt-2'>
+                                <table id='example' class='table table-striped data-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Mã thanh toán</th>
+                                            <th>Phương thức</th>
+                                            <th>Tiền</th>
+                                            <th>Ghi chú</th>
+                                            <th>Cập nhật</th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody-checkout">                                                                                     
+                                            {{!-- <td colspan='12' class='text-center'>
+                                                Danh sách trống !
+                                            </td> --}}                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                <button type='button' class='btn btn-success btn-active-job mb-2 mt-3'>
+                    <i class='fa-solid fa-plus pe-1'></i>
+                    Thêm
+                </button>
+                <div class='card'>
+                        <div class='card-header'>
+                            <span><i class='bi bi-table me-2'></i></span>
+                            Chi tiết công việc
+                        </div>
+                        <div class='card-body'>                          
+                            <div class='table-responsive mt-2'>
+                                <table id='example' class='table table-striped data-table overflow-scroll' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                           
+                                            <th>Nhân viên</th>
+                                            <th>Ngày giao</th>
+                                            <th>Bàn giao</th>
+                                            <th>Status</th>
+                                            <th>Detail</th>
+                                            <th>Update</th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody-jobs">
+                                                                         
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                <button type='submit' class='btn btn-primary col-sm-12'>Submit</button>
+            </form>
+        </div>
+    </div>
+</main>
+ {{> modal-create-receipt}}
+ {{> modal-create-checkout}}
+ {{> modal-create-job}}
+
+<script src="/js/validator.js"></script>
+<script src="/js/main.js"></script>
+<script >
+    validator('#form-create', '.form-group');
+</script>

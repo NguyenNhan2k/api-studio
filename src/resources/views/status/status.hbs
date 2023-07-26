@@ -2,18 +2,18 @@
     <div class='container mt-5 pt-3'>
         <div class='row mb-2'>
             <div class='col-sm-12 col-md-8'>
-                <h4>DANH MỤC</h4>
+                <h4>TRẠNG THÁI HỢP ĐỒNG</h4>
             </div>
             <div class='col-sm-12 col-md-4 pe-4'>
-                <a href='/categories/trash' class='btn btn-primary ms-3 position-relative'>
+                <a href='/status/trash' class='btn btn-primary ms-3 position-relative'>
                     <i class='fa-solid fa-trash me-1'></i>
                     Thùng rác({{{countDeleted}}})
                 </a>
-                <a href='/categories/create' class='btn btn-success float-end me-3'><i class='fa-solid fa-plus me-2'></i>Add new</a>
+                <a href='/status/create' class='btn btn-success float-end me-3'><i class='fa-solid fa-plus me-2'></i>Add new</a>
             </div>
 
         </div>
-        <form action='/categories/handleAction' method='post' class='row'>
+        <form action='/status/handleAction' method='post' class='row'>
             <div class='row'>
                 <div class='col-md-12 mb-3'>
                     <div class='card'>
@@ -58,26 +58,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#if categories}}
-                                            {{#each categories}}
+                                        {{#if status}}
+                                            {{#each status}}
                                                 <tr>
                                                     <td>
                                                         <div class='form-check'>
-                                                            <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='categories[]' value='{{this.id}}' />
+                                                            <input class='form-check-input' type='checkbox' id='flexCheckDefault' name='status[]' value='{{this.id}}' />
                                                         </div>
                                                     </td>
                                                     <td>{{this.value}}</td>
                                                     <td>{{convertToDate this.createdAt}}</td>
                                                     <td>
-                                                        <a href='/categories/{{this.id}}' class='btn btn-primary px-1 py-1'>
+                                                        <a href='/status/{{this.id}}' class='btn btn-primary px-1 py-1'>
                                                             <i class='fa-solid fa-pen'></i>
                                                         </a>
                                                     </td>
                                                     <td>
                                                         <button
                                                             class='btn btn-danger px-1 py-1'
-                                                            id='delete-categories'
-                                                            data-table='categories'
+                                                            id='delete-status'
+                                                            data-table='status'
                                                             data-actions='destroy'
                                                             data-id='{{this.id}}'
                                                         >
@@ -93,7 +93,7 @@
                                         {{/if}}
                                     </tbody>
                                 </table>
-                                {{#if categories}}
+                                {{#if status}}
                                     <nav aria-label='...' class=''>
                                         {{{paging _page countPage}}}
                                     </nav>
@@ -112,7 +112,7 @@
 <script src='/js/search.js'></script>
 <script src='/js/displayModalComment.js'></script>
 <script>
-    closeModal('.close','.btn-secondary','#delete-categories', 'Xóa thông tin chức vụ','Bạn có chắc chắn muốn xóa trường này?');
-    handelCheckedBox('input[name="categories[]"]:checked'); displaySearch('.btn-search', '#search', 'categories', '#myList', searchCategories);
+    closeModal('.close','.btn-secondary','#delete-status', 'Xóa thông tin chức vụ','Bạn có chắc chắn muốn xóa trường này?'); handelCheckedBox('input[name="status[]"]:checked');
+    displaySearch('.btn-search', '#search', 'status', '#myList', searchCategories);
 
 </script>

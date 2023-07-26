@@ -5,7 +5,7 @@ class AuthController {
     }
     async render(req, res) {
         try {
-            const toastMsg = await req.flash('toastMsg');
+            const toastMsg = await req.flash('toastMsg')[0];
             res.render('auth/login', {
                 layout: 'login',
                 toastMsg,
@@ -31,6 +31,21 @@ class AuthController {
             return respones.active(req, res, '/users');
         } catch (error) {
             console.log(error);
+        }
+    }
+    async indexAuthGg(req, res) {
+        try {
+            const user = await req.user;
+            const response = await AuthService.loginGoogle(user, res);
+            const { accessToken } = await response.result[0];
+            res.cookie('accessToken', 'Bearer ' + response.accessToken, {
+                expires: new Date(Date.now() + 8 * 3600000),
+                httpOnly: true,
+                secure: true,
+            });
+            return response.active(req, res, '/users');
+        } catch (error) {
+            return internalServer(req, res);
         }
     }
 }

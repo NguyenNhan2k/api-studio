@@ -11,7 +11,7 @@ class ContractService {
             const paramsReceipt = await {
                 code: payload.code,
             };
-            const [receipt, created] = await db.Receipts.findOrCreate({
+            const [receipt, created] = await db.Contracts.findOrCreate({
                 where: { code: paramsReceipt.code },
                 defaults: paramsReceipt,
             });
@@ -41,7 +41,7 @@ class ContractService {
                     };
                 });
                 console.log(handleArrReceipt);
-                await db.DetailReceipts.bulkCreate(handleArrReceipt, {
+                await db.Detailcontracts.bulkCreate(handleArrReceipt, {
                     returning: true,
                     validate: true,
                     individualHooks: true,
@@ -73,12 +73,12 @@ class ContractService {
     }
     async update(id, { ...payload }) {
         try {
-            const receipt = await db.Receipts.findOne({ where: { id: id } });
+            const receipt = await db.Contracts.findOne({ where: { id: id } });
             if (!receipt) {
                 await this.response.setToastMsg('danger', 'Cập nhật thất bại!', 1);
                 return this.response;
             }
-            const forced = await db.DetailReceipts.destroy({
+            const forced = await db.Detailcontracts.destroy({
                 where: {
                     id_receipt: id,
                 },
@@ -103,7 +103,7 @@ class ContractService {
                     };
                 });
                 console.log(handleArrReceipt);
-                await db.DetailReceipts.bulkCreate(handleArrReceipt, {
+                await db.Detailcontracts.bulkCreate(handleArrReceipt, {
                     returning: true,
                     validate: true,
                     individualHooks: true,
@@ -124,12 +124,12 @@ class ContractService {
     }
     async destroy(id) {
         try {
-            const receipt = await db.Receipts.destroy({ where: { id: id } });
+            const receipt = await db.Contracts.destroy({ where: { id: id } });
             if (!receipt) {
                 this.response.setMsg('Xóa thất bại!');
                 return this.response;
             }
-            const destroyOfReceipts = await db.DetailReceipts.destroy({ where: { id_receipt: id } });
+            const destroyOfcontracts = await db.Detailcontracts.destroy({ where: { id_receipt: id } });
             await this.response.setToastMsg('success', 'Xóa thành công!', 0);
             return this.response;
         } catch (error) {
@@ -139,8 +139,8 @@ class ContractService {
     }
     async force(id) {
         try {
-            const receipt = await db.Receipts.destroy({ where: { id: id }, force: true });
-            const forceOfReceipts = await db.DetailReceipts.destroy({ where: { id_receipt: id }, force: true });
+            const receipt = await db.Contracts.destroy({ where: { id: id }, force: true });
+            const forceOfcontracts = await db.Detailcontracts.destroy({ where: { id_receipt: id }, force: true });
             if (!receipt) {
                 this.response.setMsg('Xóa thất bại!');
                 return this.response;
@@ -159,8 +159,8 @@ class ContractService {
                 where: { id: id },
                 include: [
                     {
-                        model: db.DetailReceipts,
-                        as: 'detailReceipts',
+                        model: db.Detailcontracts,
+                        as: 'detailcontracts',
                         attributes: {
                             exclude: ['updatedAt'],
                         },
@@ -184,13 +184,13 @@ class ContractService {
                 ],
                 nest: true,
             };
-            const receipt = await db.Receipts.findOne(queries);
+            const receipt = await db.Contracts.findOne(queries);
             if (!receipt) {
                 this.response.setMsg('Không tìm thấy thông tin đồ cưới !');
                 return this.response;
             }
             const output = await receipt.toJSON();
-            const handleReceipt = output.detailReceipts.map((receipt) => {
+            const handleReceipt = output.detailcontracts.map((receipt) => {
                 if (receipt.wedding) {
                     receipt.name = receipt.wedding.name;
                 }
@@ -199,7 +199,7 @@ class ContractService {
                 }
                 return receipt;
             });
-            output.detailReceipts = handleReceipt;
+            output.detailcontracts = handleReceipt;
             await this.response.pushResult({ receipt: output });
             return this.response;
         } catch (error) {
@@ -222,7 +222,7 @@ class ContractService {
         }
     }
     async findAndCountAll(deleted = true) {
-        const users = await db.Receipts.findAndCountAll({
+        const users = await db.Contracts.findAndCountAll({
             where: {
                 destroyTime: {
                     [op.not]: null,
@@ -271,17 +271,17 @@ class ContractService {
             }
             queries.offset = (await offset) * limit;
             queries.limit = await +limit;
-            const { count, rows } = await db.Receipts.findAndCountAll({
+            const { count, rows } = await db.Contracts.findAndCountAll({
                 ...queries,
             });
-            const receipts = await this.convertJson(rows);
+            const contracts = await this.convertJson(rows);
             const countDeleted = await this.findAndCountAll(false);
             const countPage = await Math.ceil(count / limit);
             if (!rows) {
                 return this.response;
             }
             const output = await {
-                receipts: receipts,
+                contracts: contracts,
                 countDeleted: countDeleted.count,
                 countPage,
             };
@@ -295,14 +295,14 @@ class ContractService {
     }
     async restore(id) {
         try {
-            const retored = await db.Receipts.restore({
+            const retored = await db.Contracts.restore({
                 where: {
                     id,
                 },
                 raw: true,
                 nest: true,
             });
-            const retoredForReceipt = await db.DetailReceipts.restore({
+            const retoredForReceipt = await db.Detailcontracts.restore({
                 where: {
                     id_receipt: id,
                 },
@@ -319,14 +319,14 @@ class ContractService {
     }
     async destroyMutiple(arrId) {
         try {
-            const destroied = await db.Receipts.destroy({
+            const destroied = await db.Contracts.destroy({
                 where: {
                     id: arrId,
                 },
                 raw: true,
                 nest: true,
             });
-            const destroiedForReceipt = await db.DetailReceipts.destroy({
+            const destroiedForReceipt = await db.Detailcontracts.destroy({
                 where: {
                     id_receipt: arrId,
                 },
@@ -346,14 +346,14 @@ class ContractService {
     }
     async restoreMutiple(arrId) {
         try {
-            const restored = await db.Receipts.restore({
+            const restored = await db.Contracts.restore({
                 where: {
                     id: arrId,
                 },
                 raw: true,
                 nest: true,
             });
-            const retoredForReceipt = await db.DetailReceipts.restore({
+            const retoredForReceipt = await db.Detailcontracts.restore({
                 where: {
                     id_receipt: arrId,
                 },
@@ -373,14 +373,14 @@ class ContractService {
     }
     async forceMutiple(arrId) {
         try {
-            const forced = await db.Receipts.destroy({
+            const forced = await db.Contracts.destroy({
                 where: {
                     id: arrId,
                 },
 
                 force: true,
             });
-            const forcedForReceipt = await db.DetailReceipts.destroy({
+            const forcedForReceipt = await db.Detailcontracts.destroy({
                 where: {
                     id_receipt: arrId,
                 },

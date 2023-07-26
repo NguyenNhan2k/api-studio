@@ -38,11 +38,9 @@ class AuthJwtMiddleWare {
         const message = await {
             type: 'danger',
             message: 'Vui lòng đăng nhập để tiếp tục!',
-            err: 1,
+            error: 1,
         };
         try {
-            res.redirect('back');
-            return 0;
             const params = await req.cookies.accessToken;
             if (!params) {
                 await req.flash('toastMsg', message);
